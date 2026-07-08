@@ -26,3 +26,7 @@ See `references/RULES.md`
 
 - `variable` command usage: `references/commands/variable.md`
 
+## Strategies
+
+See `references/strategies/STRATEGIES.md`
+
