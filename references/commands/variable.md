@@ -1,7 +1,7 @@
 # Variable Command Guidelines
 
 Practical guidance for using Aspherix's `variable` command.
-General rules (naming conventions, prefix restrictions, etc.) live in `RULES.md` — this file is about *how* and *when* to reach for each variable style.
+General rules (naming conventions, prefix restrictions, etc.) live in `../RULES.md` — this file is about *how* and *when* to reach for each variable style.
 
 In practice, cases mostly need four of the available styles: `equal`, `string`, `atom`, and `boolean`.
 
@@ -83,7 +83,7 @@ Chaining a `calculate` into a `variable` this way is useful when the value needs
 ### Avoid `c_`/`f_` compute and fix references
 
 The docs also describe `c_ID` (compute) and `f_ID` (fix) reference syntax for pulling legacy `compute`/`fix` results into a formula.
-Per `RULES.md`, `compute` and `fix` commands themselves are avoided in favor of `calculate` and native declarative commands — so these reference forms shouldn't come up in practice.
+Per `../RULES.md`, `compute` and `fix` commands themselves are avoided in favor of `calculate` and native declarative commands — so these reference forms shouldn't come up in practice.
 If a case still needs one, treat it as a signal that the underlying `compute`/`fix` command should be replaced with its native equivalent first, rather than reached into via a variable.
 
 ## Referencing variables

@@ -24,5 +24,5 @@ See `references/RULES.md`
 
 ## Guidelines
 
-- `variable` command usage: `references/VARIABLE.md`
+- `variable` command usage: `references/commands/variable.md`
 
