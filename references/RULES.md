@@ -41,6 +41,8 @@ Always use the Aspherix's native `simulate` command.
 Legacy LIGGGHTS-style `dump` commands shoud be avoided.
 Prefer to use the Aspherix's native `output_settings` command for generating output.
 
+Using the `id` keyword for `output_settings` is generally not required.
+
 ## Default Values
 
 Always prefer to use default values for commands when they are available.
