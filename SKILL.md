@@ -25,6 +25,8 @@ See `references/RULES.md`
 ## Guidelines
 
 - `variable` command usage: `references/commands/variable.md`
+- `status`/`status_style` command usage: `references/commands/status.md`
+- `output_settings` command usage: `references/commands/output_settings.md`
 
 ## Strategies
 
