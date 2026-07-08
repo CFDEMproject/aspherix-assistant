@@ -28,7 +28,7 @@ status v_s
 
 This prints status at timesteps `0, 10, 20, 30, 100, 200, 300, 1000, 2000, ...`.
 
-See `../commands/variable.md` for general `variable` usage.
+See `variable.md` for general `variable` usage.
 
 ### Prefer `write_to_terminal_timestep` over `status N`
 
