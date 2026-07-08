@@ -11,6 +11,11 @@ This repo defines a Claude Code **skill** named "Aspherix Assistant" — it is n
 - `references/commands/<name>.md` — per-command guidance (e.g. `references/commands/variable.md`), one file per Aspherix command, named after the command itself. Use for *how*/*when* to use a specific command (styles, syntax, examples); general cross-command rules still belong only in `references/RULES.md`.
 - `references/strategies/STRATEGIES.md` — short, self-contained problem-solving strategies (a few sentences each). A strategy that needs its own examples or multi-step walkthrough gets its own `references/strategies/<name>.md` file, linked from `STRATEGIES.md`.
 
+## Commit messages
+
+Every commit made by an AI agent must end with a `Co-Authored-By:` trailer naming the specific model that wrote it (e.g. `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`), not a generic tool name.
+This repo relies on that trailer to audit which model authored which change, so use the exact model name/version, and never omit or genericize it.
+
 ## Working in this repo
 
 - When adding or changing a rule that Aspherix cases must follow, edit `references/RULES.md` directly rather than duplicating rule text elsewhere.
