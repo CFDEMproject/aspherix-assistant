@@ -69,3 +69,4 @@ Requires the command to have an explicit `id`, since the reference is built from
 check_timestep id check_ts rayleigh_fraction 10% hertz_fraction 10%
 variable timestep_ok boolean "id_check_ts.rayleigh_fraction < 1 && id_check_ts.hertz_fraction < 1"
 ```
+

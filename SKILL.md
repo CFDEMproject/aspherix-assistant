@@ -28,6 +28,10 @@ Public repository of example Aspherix cases.
 
 See `references/RULES.md`
 
+## Running Aspherix
+
+See `references/RUNNING.md`
+
 ## Guidelines
 
 - `variable` command usage: `references/commands/variable.md`
