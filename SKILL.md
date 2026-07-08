@@ -27,6 +27,7 @@ See `references/RULES.md`
 - `variable` command usage: `references/commands/variable.md`
 - `status`/`status_style` command usage: `references/commands/status.md`
 - `output_settings` command usage: `references/commands/output_settings.md`
+- `check_timestep` command usage: `references/commands/check_timestep.md`
 
 ## Strategies
 
