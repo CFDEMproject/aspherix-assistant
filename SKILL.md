@@ -18,6 +18,12 @@ Static Sphinx + Read The Docs website.
 0. [website](https://doc.aspherix-dem.com/)
 1. [index](https://doc.aspherix-dem.com/genindex.html)
 
+## Example Cases
+
+Public repository of example Aspherix cases.
+
+0. [Aspherix-Examples-PUBLIC](https://github.com/CFDEMproject/Aspherix-Examples-PUBLIC)
+
 ## Rules
 
 See `references/RULES.md`
