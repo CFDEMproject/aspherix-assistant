@@ -9,19 +9,19 @@ It steers Claude toward Aspherix's native declarative command syntax, points it 
 Globally, for all projects:
 
 ```
-git clone <this-repo-url> ~/.claude/skills/aspherix-assistant
+git clone https://github.com/CFDEMproject/aspherix-assistant ~/.claude/skills/aspherix-assistant
 ```
 
 Or project-local, inside a specific repo:
 
 ```
-git clone <this-repo-url> .claude/skills/aspherix-assistant
+git clone https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant
 ```
 
 Or as a git submodule, if the host project wants version pinning and to track updates via `git submodule update`:
 
 ```
-git submodule add <this-repo-url> .claude/skills/aspherix-assistant
+git submodule add https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant
 ```
 
 Claude Code auto-discovers `SKILL.md` from either location — no further configuration needed.
