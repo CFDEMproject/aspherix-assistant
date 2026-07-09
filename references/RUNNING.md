@@ -2,6 +2,18 @@
 
 How to invoke the `aspherix` CLI binary itself, as opposed to writing `.asx` input script content (see `commands/` and `RULES.md` for that).
 
+## Environment
+
+Running the executable depends on having the Aspherix environment correctly set up.
+The `aspherix` executable MUST be available in your PATH.
+
+You can check if it is available with the following shell command:
+```
+which aspherix
+```
+
+> NOTE: It is recommended that the Aspherix environment already be preloaded — and NOT (re-)loaded each time a simulation is run.
+
 ## Basic usage
 
 ```
@@ -31,3 +43,17 @@ Reading the whole thing into context will pollute it.
 - Run the simulation in the background, or with a bounded number of timesteps/short duration first, rather than a full production run, when just checking that a script works.
 - When checking output, prefer `tail`, `grep`, or piping through a filter over reading the whole log file — e.g. check the last N lines for the final status, or grep for `ERROR`/`WARN`.
 - Set `-log filename` (rather than leaving it on screen/stdout) so the log can be searched/filtered on disk instead of scrolling through captured terminal output.
+
+## Visualizing results
+
+Aspherix results are written to ParaView `.pvd` files.
+To visualize the results a working version of ParaView is required, and the Aspherix macros must be installed (bundled with the Aspherix installer).
+
+```
+paraview --data=path/to/results.pvd
+```
+
+Launching the macro automatically via a `--script` flag is currently unreliable — don't pass `--script`.
+Instead, launch ParaView with `--data` as above, then tell the user to run the Aspherix macro themselves from the Macros menu once ParaView is open.
+
+ParaView macros are commonly installed in `~/.config/ParaView/Macros/`.
