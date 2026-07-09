@@ -56,6 +56,14 @@ variable settled boolean "ke(all,insertion_region) <= 0.001"
 if "${settled}" then "quit"
 ```
 
+### No spaces in function calls
+
+Group functions used inside `equal`, `atom`, and `boolean` formulas (e.g. `count_particles(...)`, `mass(...)`, `ke(...)`) must not contain spaces — neither after commas separating arguments nor around parentheses.
+
+Examples: (Avoid -> Prefer)
+- `count_particles(assembly_group, target_region)` -> `count_particles(assembly_group,target_region)`
+- `mass( assembly_group )` -> `mass(assembly_group)`
+
 ## Referencing other commands' output
 
 `equal`, `atom`, and `boolean` formulas aren't limited to group functions (`count_particles(...)`, `mass(...)`, etc.) — they can also pull in results already produced by other commands in the script.
