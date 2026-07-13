@@ -18,6 +18,13 @@ python3 -c "import zlib; d=open('/tmp/objects.inv','rb').read(); print(zlib.deco
 Each line is `name domain:role priority uri displayname`.
 `std:doc` entries are full pages (`uri` is the page's `.html` filename); `std:label` entries are anchors within a page.
 
+## Page structure
+
+Command pages follow a consistent Sphinx layout, so name the section you need instead of asking for the whole page.
+All real content lives inside `<section id="...">` blocks; everything outside them (sidebar nav, footer, prev/next links) is boilerplate and can be ignored.
+The recurring sections, in order, are: `#syntax` (argument list), `#style-specific-syntax` (only on commands with sub-styles, e.g. `mesh_module_motion`'s `linear`/`rotate`/`wiggle`/... each get their own subsection), `#examples`, `#description` (semantics), `#additional-information`, `#restrictions`, `#related-commands`.
+For a syntax/argument question, ask for the `Syntax` (and `Style specific syntax` if relevant) section specifically; for "how does this work" questions, ask for `Description`; for a working snippet, ask for `Examples`.
+
 ## Fetching a page
 
 Most coding-agent harnesses (Claude Code's WebFetch, Gemini CLI's web_fetch, etc.) fetch a URL through a small subagent that only sees the URL and the prompt you give it — it can't browse or search the site itself, and it starts with no context on the Aspherix DSL or this skill.
