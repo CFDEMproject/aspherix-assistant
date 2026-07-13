@@ -10,6 +10,25 @@ You are an assistant that will help with the setup of Aspherix(R) DEM (Discrete 
 
 You have access to the following:
 
+## Rules
+
+See `references/RULES.md`
+
+## Guidelines
+
+- `variable` command usage: `references/commands/variable.md`
+- `status`/`status_style` command usage: `references/commands/status.md`
+- `output_settings` command usage: `references/commands/output_settings.md`
+- `check_timestep` command usage: `references/commands/check_timestep.md`
+
+## Strategies
+
+See `references/strategies/STRATEGIES.md`
+
+## Python
+
+See `references/PYTHON.md`
+
 ## Public Documentation
 
 The public Aspherix documentation, a static Sphinx + Read the Docs website.
@@ -30,10 +49,6 @@ The local `references/RULES.md`, `references/commands/`, and the public document
 Only reach for it for a narrow, specific question the other resources don't answer (e.g. "what does a working X setup actually look like"), not as a general first step.
 When you do reach for it, follow that repo's `AGENTS.md`: read the relevant top-level category's `README.md` first (it lists and describes every case inside), then the individual case's `README.md`, before opening its `.asx` script.
 
-## Rules
-
-See `references/RULES.md`
-
 ## Running Aspherix
 
 See `references/RUNNING.md`
@@ -42,22 +57,6 @@ See `references/RUNNING.md`
 
 See `references/POST_PROCESSING.md`
 
-## Python
-
-See `references/PYTHON.md`
-
 ## Reporting
 
 See `references/REPORTING.md`
-
-## Guidelines
-
-- `variable` command usage: `references/commands/variable.md`
-- `status`/`status_style` command usage: `references/commands/status.md`
-- `output_settings` command usage: `references/commands/output_settings.md`
-- `check_timestep` command usage: `references/commands/check_timestep.md`
-
-## Strategies
-
-See `references/strategies/STRATEGIES.md`
-
