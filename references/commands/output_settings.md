@@ -65,7 +65,7 @@ output_settings particle_properties_exclude {tqx, tqy, tqz}
 
 ## Preferred usage
 
-- Prefer the defaults. Per `../RULES.md`, only override a default when required — for `output_settings` that usually means a bare `output_settings` call is enough, and `particle_properties`/`mesh_properties` shouldn't be spelled out explicitly unless the case actually needs a non-default set.
+- Prefer the defaults. Per `../RULES.md`, only override a default when required — for `output_settings` that usually means a bare `output_settings` call is enough, and `particle_properties`/`mesh_properties` shouldn't be spelled out explicitly unless the case actually needs a non-default set. This includes `id`: unlike most commands, `output_settings`'s output is normally consumed by ParaView rather than referenced elsewhere via `id_`, so a descriptive `id` usually isn't needed — see `../RULES.md`'s Default Values section.
 - Be considerate with output frequency (`write_output_timestep`) — large simulations with long run times can generate a lot of data; see `../RULES.md`.
 - When trimming is genuinely needed, prefer `particle_properties_exclude`/`mesh_properties_exclude` over restating the whole set with `particle_properties`/`mesh_properties` — it's shorter and stays correct if the defaults change.
 - `output_settings` automatically triggers a default `status_style` (if not already set), and is aware of newly added meshes/properties across repeated `simulate` calls — repeated calls should rely on the default `mode modify` rather than restating the full configuration each time.

@@ -32,8 +32,10 @@ See `variable.md` for general `variable` usage.
 
 ### Prefer `write_to_terminal_timestep` over `status N`
 
-Setting `write_to_terminal_timestep` also drives status output, and is the preferred way to set the status cadence — prefer it over calling `status N` directly.
+Setting `write_to_terminal_timestep` also drives status output, and is the preferred way to set a plain, uniform status cadence — prefer it over calling `status N` directly.
 Unlike `status N` (a timestep count), `write_to_terminal_timestep` is expressed in simulation time units, and it is shared with other commands that print diagnostics (e.g. `check_timestep`), so setting it once keeps all terminal output on a consistent cadence instead of configuring each command's frequency separately.
+
+This preference is for the common uniform-interval case only. `write_to_terminal_timestep` takes a single fixed value, so it can't reproduce a non-uniform schedule — when a case genuinely needs one (e.g. dense early on, sparse later), the variable-driven `status v_s` technique above is still the right tool, not something this preference overrides.
 
 ```
 write_to_terminal_timestep 0.001

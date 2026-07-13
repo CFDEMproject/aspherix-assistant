@@ -41,14 +41,12 @@ Always use the Aspherix's native `simulate` command.
 Legacy LIGGGHTS-style `dump` commands shoud be avoided.
 Prefer to use the Aspherix's native `output_settings` command for generating output.
 
-Using the `id` keyword for `output_settings` is generally not required.
-
 ## Default Values
 
 Always prefer to use default values for commands when they are available.
 Only override default values if it is required.
 
-The exception here is `id` where using a descriptive name for each command is considered good practice.
+The exception here is `id`: give a command a descriptive `id` whenever its result needs to be referenced elsewhere (a `calculate`, `check_timestep`, or similar command — see `commands/variable.md` for the `id_` reference syntax this enables). `output_settings` is a case where this exception usually doesn't apply — its output is normally consumed by ParaView, not referenced by `id_` from another command — so using the `id` keyword there is generally not required.
 
 ## Naming Convention
 
@@ -56,8 +54,8 @@ Use descriptive names for variables and commands.
 Choose a consistent style and stick to it.
 Avoid short and ambiguous names, avoid prefixes.
 
-Aspherix uses `id_`, `v_`, `f_` and `c_` to disambiguate command names, variable names, fix names and compute names.
-These prefixes MUST always be avoided
+`id_`, `v_`, `f_` and `c_` are reserved reference prefixes: Aspherix prepends them automatically when a command's result, a variable, a fix, or a compute is referenced elsewhere (e.g. a `calculate` command with `id avg_vel` is referenced as `id_avg_vel`; a variable named `count` is referenced as `v_count`) — see `commands/variable.md` for the full reference syntax.
+This is not a naming style you opt into; don't manually choose an `id`/variable name that itself starts with one of these strings (e.g. don't name a variable `v_count`), since that just produces a confusing doubled-up reference (`v_v_count`) rather than disambiguating anything.
 
 ## Simulation Output
 

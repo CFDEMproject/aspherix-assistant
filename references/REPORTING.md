@@ -9,7 +9,8 @@ In an unattended/automated context — a subagent, an autonomous run, anything w
 
 In an interactive session, default to reporting this as a normal reply.
 Write it to a file instead when the surrounding workflow explicitly calls for one (e.g. a test harness that expects a summary artifact), the user asks for one, or the content itself doesn't fit a chat reply (e.g. generated plots, large tables — see "Where results go" below).
-Otherwise, still mention that the report could be saved to a file and ask if they'd like that — don't write it unprompted, just offer.
+
+Whenever none of those triggers apply and the report stays a normal reply, always close by offering to save it to a file — this is not optional or situational, do it every time. Don't write the file unprompted; just ask.
 
 In an unattended/automated context there is no chat reply anyone will see, so a file is the only sensible destination — write the report to a file even if nothing above would otherwise have called for one.
 
