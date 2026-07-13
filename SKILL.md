@@ -17,16 +17,7 @@ The public Aspherix documentation, a static Sphinx + Read the Docs website.
 0. [website](https://doc.aspherix-dem.com/)
 1. [index](https://doc.aspherix-dem.com/genindex.html)
 
-Command reference pages are named after the command itself: `https://doc.aspherix-dem.com/<command_name>.html` (e.g. the `variable` command is at `variable.html`, `mesh_module motion` is at `mesh_module_motion.html`). If you already know the command name, construct this URL directly and fetch just that page instead of searching first.
-
-If the exact command name isn't known, use `objects.inv` — the site's Sphinx object inventory — as the authoritative index of every documented page, rather than crawling `genindex.html` or pulling whole pages into a scratch file to find the right one. It's a zlib-compressed binary file, not HTML, so WebFetch can't parse it directly; fetch and decompress it instead:
-
-```
-curl -s https://doc.aspherix-dem.com/objects.inv -o /tmp/objects.inv
-python3 -c "import zlib; d=open('/tmp/objects.inv','rb').read(); print(zlib.decompress(d.split(b'\n',4)[4]).decode())"
-```
-
-Each line is `name domain:role priority uri displayname`. `std:doc` entries are full pages (`uri` is the page's `.html` filename); `std:label` entries are anchors within a page.
+See `references/DOC_SEARCH.md` for how to find and fetch the right page instead of searching or pulling whole pages into a scratch file.
 
 ## Example Cases
 
