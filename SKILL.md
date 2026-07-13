@@ -38,6 +38,14 @@ See `references/RULES.md`
 
 See `references/RUNNING.md`
 
+## Post Processing
+
+See `references/POST_PROCESSING.md`
+
+## Reporting
+
+See `references/REPORTING.md`
+
 ## Guidelines
 
 - `variable` command usage: `references/commands/variable.md`
