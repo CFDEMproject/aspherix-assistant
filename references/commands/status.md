@@ -41,6 +41,8 @@ This preference is for the common uniform-interval case only. `write_to_terminal
 write_to_terminal_timestep 0.001
 ```
 
+Set `write_to_terminal_timestep` to a finer cadence than `output_settings`'s `write_output_timestep` — status output is a handful of scalars, cheap enough to sample often and genuinely useful for monitoring a running simulation, unlike the full per-particle/per-mesh snapshots `write_output_timestep` writes. See `../RULES.md`'s Simulation Output section.
+
 ## `status_style` — content and destination
 
 ```

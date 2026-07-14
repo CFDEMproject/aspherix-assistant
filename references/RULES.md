@@ -64,6 +64,11 @@ Be considerate with output intervals, especially with large simulations with lon
 
 The same is true for restart files.
 
+The two output intervals differ hugely in cost, so don't set them to the same cadence by default.
+`write_output_timestep` (see `commands/output_settings.md`) writes a full per-particle/per-mesh snapshot each time, so it's the one to be conservative with.
+`write_to_terminal_timestep` (see `commands/status.md`) writes a handful of scalars to the terminal/log/CSV, so it's cheap enough to sample much more often — and doing so is genuinely useful, since it's what makes a running simulation's log file and CSV time series usable for monitoring and runtime analysis.
+As a rule of thumb, set `write_to_terminal_timestep` to a smaller value than `write_output_timestep` rather than deriving one from the other or leaving both at the same cadence.
+
 ## Timestep Criteria
 
 Large timesteps may cause numerical instability.

@@ -21,6 +21,8 @@ Set `write_output_timestep` once rather than overriding `write_every_time` per `
 write_output_timestep 0.01
 ```
 
+Keep `write_output_timestep` coarser than `status`'s `write_to_terminal_timestep` — these snapshots are full per-particle/per-mesh dumps, much more expensive than the handful of scalars status output writes, so be more conservative with this interval. See `../RULES.md`'s Simulation Output section.
+
 ## Particle output
 
 `write_particles` defaults to `yes` and the default `particle_properties` set is already sensible for most cases — a bare `output_settings` call is often enough to get particle output, with no `particle_properties` needed.
