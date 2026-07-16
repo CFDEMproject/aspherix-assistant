@@ -11,29 +11,65 @@ For every tool, the same three install methods apply, just with a different dest
 
 ## Claude Code
 
-Project: `git clone https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant`
-Personal (all projects): `git clone https://github.com/CFDEMproject/aspherix-assistant ~/.claude/skills/aspherix-assistant`
+Project:
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant
+```
+
+Personal (all projects):
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant ~/.claude/skills/aspherix-assistant
+```
 
 Claude Code auto-discovers `SKILL.md` from either location — no further configuration needed.
 
 ## Cursor
 
-Project: `git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant`
-Personal (all projects): `git clone https://github.com/CFDEMproject/aspherix-assistant ~/.agents/skills/aspherix-assistant`
+Project:
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant
+```
+
+Personal (all projects):
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant ~/.agents/skills/aspherix-assistant
+```
 
 Cursor also reads `.claude/skills/` directly, so a Claude Code install (above) is picked up by Cursor automatically — no separate install needed if you've already installed it for Claude Code in the same project.
 
 ## Gemini CLI
 
-Project: `git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant`
-Personal (all projects): `git clone https://github.com/CFDEMproject/aspherix-assistant ~/.agents/skills/aspherix-assistant`
+Project:
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant
+```
+
+Personal (all projects):
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant ~/.agents/skills/aspherix-assistant
+```
 
 Gemini CLI also accepts `.gemini/skills/aspherix-assistant` (project) or `~/.gemini/skills/aspherix-assistant` (personal) instead, but `.agents/skills/` takes precedence if both are present.
 
 ## Google Antigravity
 
-Project: `git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant`
-Personal (all projects): `git clone https://github.com/CFDEMproject/aspherix-assistant ~/.gemini/config/skills/aspherix-assistant`
+Project:
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant .agents/skills/aspherix-assistant
+```
+
+Personal (all projects):
+
+```
+git clone https://github.com/CFDEMproject/aspherix-assistant ~/.gemini/config/skills/aspherix-assistant
+```
 
 Antigravity's personal/global path is the one outlier here — it doesn't match Cursor's or Gemini CLI's `~/.agents/skills/`.
 
