@@ -1,8 +1,8 @@
 # Aspherix Assistant
 
-A [Claude Code](https://claude.com/claude-code) skill that helps with the setup of [Aspherix®](https://www.aspherix-dem.com/) DEM (Discrete Element Method) simulations.
+An AI skill that helps with the setup of [Aspherix®](https://www.aspherix-dem.com/) DEM (Discrete Element Method) simulations.
 
-It steers Claude toward Aspherix's native declarative command syntax, points it at the public Aspherix documentation, and packages command- and strategy-specific guidance that's tedious to look up by hand.
+It steers agents toward Aspherix's native declarative command syntax, points it at the public Aspherix documentation, and packages command- and strategy-specific guidance that's tedious to look up by hand.
 
 ## Install
 
