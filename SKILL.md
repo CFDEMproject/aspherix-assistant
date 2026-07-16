@@ -1,4 +1,5 @@
 ---
+name: aspherix-assistant
 description: "Aspherix Assistant"
 ---
 

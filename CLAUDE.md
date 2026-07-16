@@ -1,6 +1,8 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working *on* this repository — i.e. when developing, extending, or maintaining the Aspherix Assistant skill itself.
+It is not part of the skill's own content and is never loaded by a harness using the skill: an agent running Aspherix Assistant to build a DEM case only sees `SKILL.md` and `references/`, never this file.
+If you're looking for the skill's actual instructions/content, start at `SKILL.md` instead.
 
 ## What this repository is
 

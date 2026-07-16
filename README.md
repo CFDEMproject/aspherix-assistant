@@ -6,25 +6,8 @@ It steers Claude toward Aspherix's native declarative command syntax, points it 
 
 ## Install
 
-Globally, for all projects:
-
-```
-git clone https://github.com/CFDEMproject/aspherix-assistant ~/.claude/skills/aspherix-assistant
-```
-
-Or project-local, inside a specific repo:
-
-```
-git clone https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant
-```
-
-Or as a git submodule, if the host project wants version pinning and to track updates via `git submodule update`:
-
-```
-git submodule add https://github.com/CFDEMproject/aspherix-assistant .claude/skills/aspherix-assistant
-```
-
-Claude Code auto-discovers `SKILL.md` from either location — no further configuration needed.
+This skill follows the [Agent Skills](https://agentskills.io) open standard, so the same `SKILL.md` works across Claude Code, Cursor, Gemini CLI, and Google Antigravity — only the install directory differs per tool.
+See [`INSTALLATION.md`](INSTALLATION.md) for exact per-tool install paths and methods.
 
 ## What's in here
 
