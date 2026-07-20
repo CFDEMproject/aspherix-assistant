@@ -44,6 +44,12 @@ Reading the whole thing into context will pollute it.
 - When checking output, prefer `tail`, `grep`, or piping through a filter over reading the whole log file — e.g. check the last N lines for the final status, or grep for `ERROR`/`WARN`.
 - Set `-log filename` (rather than leaving it on screen/stdout) so the log can be searched/filtered on disk instead of scrolling through captured terminal output.
 
+## GPU execution
+
+Aspherix can run on GPU via a command-line flag (see the CLI's own `-help` /
+documented command-line options for the exact current flag name and any
+architecture-selection options).
+
 ## Visualizing results
 
 Aspherix results are written to ParaView `.pvd` files.

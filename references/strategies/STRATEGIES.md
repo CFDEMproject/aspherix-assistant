@@ -18,3 +18,10 @@ Real material Young's moduli (e.g. ~200 GPa for steel, ~70 GPa for glass) push H
 Standard DEM practice for rigid-ish materials (metals, minerals, most bulk solids) is to soften Young's modulus by several orders of magnitude (e.g. down to the 1e6-1e8 Pa range) rather than use the literal material value: contact overlap and force response barely change at DEM timescales for a genuinely rigid material, so the modulus only needs to be high enough that particles don't visibly interpenetrate, not physically exact.
 Always pair a chosen Young's modulus with `check_timestep` (see `commands/check_timestep.md` and `RULES.md`'s Timestep Criteria) rather than picking a modulus and `simulation_timestep` independently — if a case uses a high Young's modulus (order 1e9 Pa or above) and also reports timestep/stability errors, softening the modulus is usually the right fix, not shrinking the timestep further to compensate.
 This softening isn't appropriate for every case: skip it when contact stiffness itself is the quantity of interest (e.g. calibrating against a real material's elastic response, or a packing/consolidation study sensitive to stiffness) — flag that tradeoff to the user rather than silently softening the modulus.
+
+## GPU/CPU command and model parity isn't guaranteed or fully documented
+
+A command, insertion style, or contact-model sub-style that works on CPU
+may be rejected or behave differently on GPU. If the preferred choice turns
+out to be GPU-unsupported, look for a GPU-supported alternative that approximates
+the same physical intent rather than dropping the requirement silently.
