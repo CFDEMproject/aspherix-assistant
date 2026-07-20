@@ -25,3 +25,22 @@ A command, insertion style, or contact-model sub-style that works on CPU
 may be rejected or behave differently on GPU. If the preferred choice turns
 out to be GPU-unsupported, look for a GPU-supported alternative that approximates
 the same physical intent rather than dropping the requirement silently.
+
+## Non-sphericity
+
+A sphere is the default shape for a reason (cheapest to simulate) — but
+for markedly non-spherical particles (elongated, angular, flat), represent
+that with either a genuinely non-spherical shape (multi-sphere,
+convex/concave, superquadric) or a rolling-friction contact model on
+ordinary spheres. Prefer rolling friction by default: it approximates bulk
+flow behavior (angle of repose, mixing) well at much lower cost, and is
+sufficient unless the particle geometry itself is what the case needs to
+get right.
+
+## Cohesion
+
+Cohesion (inter-particle/particle-wall stickiness) is a separate property
+from friction, defaults off, and should stay off unless the material is
+actually known or expected to be cohesive (fine powders, moisture, etc.).
+Enabling it adds its own coefficients — flag them for sign-off like any
+other material property (see `REPORTING.md`).
