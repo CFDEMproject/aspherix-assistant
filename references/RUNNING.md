@@ -44,6 +44,16 @@ Reading the whole thing into context will pollute it.
 - When checking output, prefer `tail`, `grep`, or piping through a filter over reading the whole log file — e.g. check the last N lines for the final status, or grep for `ERROR`/`WARN`.
 - Set `-log filename` (rather than leaving it on screen/stdout) so the log can be searched/filtered on disk instead of scrolling through captured terminal output.
 
+## Concurrent runs
+
+Never start a second `aspherix` process against a case directory that
+already has a run in progress. Aspherix's own output files — notably
+`simulation_data_aspherix.csv` (see `POST_PROCESSING.md`) — are not safe for
+concurrent writers and can be corrupted, forcing a full re-run to recover.
+If you need to test or iterate on something small while a longer run is
+still going, do it in a separate scratch/case-copy directory rather than
+the one the active run is using.
+
 ## GPU execution
 
 Aspherix can run on GPU via a command-line flag (see the CLI's own `-help` /
