@@ -26,6 +26,10 @@ See `references/RULES.md`
 
 See `references/strategies/STRATEGIES.md`
 
+## Mesh Preprocessing
+
+See `references/MESH_PREPROCESSING.md`
+
 ## Python
 
 See `references/PYTHON.md`
