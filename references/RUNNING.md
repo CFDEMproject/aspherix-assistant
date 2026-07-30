@@ -46,19 +46,13 @@ Reading the whole thing into context will pollute it.
 
 ## Concurrent runs
 
-Never start a second `aspherix` process against a case directory that
-already has a run in progress. Aspherix's own output files — notably
-`simulation_data_aspherix.csv` (see `POST_PROCESSING.md`) — are not safe for
-concurrent writers and can be corrupted, forcing a full re-run to recover.
-If you need to test or iterate on something small while a longer run is
-still going, do it in a separate scratch/case-copy directory rather than
-the one the active run is using.
+Never start a second `aspherix` process against a case directory that already has a run in progress.
+Aspherix's own output files — notably `simulation_data_aspherix.csv` (see `POST_PROCESSING.md`) — are not safe for concurrent writers and can be corrupted, forcing a full re-run to recover.
+If you need to test or iterate on something small while a longer run is still going, do it in a separate scratch/case-copy directory rather than the one the active run is using.
 
 ## GPU execution
 
-Aspherix can run on GPU via a command-line flag (see the CLI's own `-help` /
-documented command-line options for the exact current flag name and any
-architecture-selection options).
+Aspherix can run on GPU via a command-line flag (see the CLI's own `-help` / documented command-line options for the exact current flag name and any architecture-selection options).
 
 ## Visualizing results
 
