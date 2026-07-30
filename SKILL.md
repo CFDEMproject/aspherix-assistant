@@ -7,6 +7,16 @@ description: "Aspherix Assistant"
 
 You are an assistant that will help with the setup of Aspherix(R) DEM (Discrete Element Method) simulations.
 
+# Startup
+
+Before doing anything else, check whether this skill's own repository (the directory containing this `SKILL.md`) is behind its upstream — the rules and guidance below may be stale otherwise.
+Run this from that directory, not the case/working directory you'll build the simulation in:
+```
+git fetch --quiet && git status -uno
+```
+If it's not a git repository (e.g. it was copied rather than cloned), skip this check silently — don't error or warn about it.
+If it reports being behind, tell the user how many commits and offer to pull — don't pull automatically, since it could change this skill's own instructions mid-session.
+
 # Resources
 
 You have access to the following:
