@@ -1,17 +1,18 @@
 # Searching the Public Documentation
 
-The public Aspherix documentation ([website](https://doc.aspherix-dem.com/), [index](https://doc.aspherix-dem.com/genindex.html)) is a static Sphinx + Read the Docs site.
+The public Aspherix documentation ([website](https://doc.aspherix-dem.com/)) is a static Sphinx + Read the Docs site covering several products (Solver, GUI, Calibration, CFDEMcoupling), each under its own path.
+This skill only deals in `.asx` input scripts, so it only ever needs the **Solver** section, at `https://doc.aspherix-dem.com/solver/` ([index](https://doc.aspherix-dem.com/solver/genindex.html)) — every URL below is relative to that path.
 
 ## Finding the right page
 
-Command reference pages are named after the command itself: `https://doc.aspherix-dem.com/<command_name>.html` (e.g. the `variable` command is at `variable.html`, `mesh_module motion` is at `mesh_module_motion.html`).
+Command reference pages are named after the command itself: `https://doc.aspherix-dem.com/solver/<command_name>.html` (e.g. the `variable` command is at `variable.html`, `mesh_module motion` is at `mesh_module_motion.html`).
 If you already know the command name, construct this URL directly instead of searching first.
 
 If the exact command name isn't known, use `objects.inv` — the site's Sphinx object inventory — as the authoritative index of every documented page, rather than crawling `genindex.html` or pulling whole pages into a scratch file to find the right one.
 It's a zlib-compressed binary file, not HTML, so a URL-fetching tool that expects renderable content (e.g. Claude Code's WebFetch) can't parse it directly; fetch and decompress it with a shell command instead:
 
 ```
-curl -s https://doc.aspherix-dem.com/objects.inv -o /tmp/objects.inv
+curl -s https://doc.aspherix-dem.com/solver/objects.inv -o /tmp/objects.inv
 python3 -c "import zlib; d=open('/tmp/objects.inv','rb').read(); print(zlib.decompress(d.split(b'\n',4)[4]).decode())"
 ```
 

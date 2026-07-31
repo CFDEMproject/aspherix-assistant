@@ -11,7 +11,7 @@ See [`INSTALLATION.md`](INSTALLATION.md) for exact per-tool install paths and me
 
 ## What's in here
 
-- `SKILL.md` — the skill definition: context, links to the public Aspherix [docs](https://doc.aspherix-dem.com/), and pointers into `references/`.
+- `SKILL.md` — the skill definition: context, links to the public Aspherix [Solver docs](https://doc.aspherix-dem.com/solver/) (one section of the broader [Aspherix docs](https://doc.aspherix-dem.com/)), and pointers into `references/`.
 - `references/RULES.md` — the single source of truth for rules every Aspherix case must follow.
 - `references/RUNNING.md` — how to invoke the `aspherix` CLI binary itself.
 - `references/commands/<name>.md` — per-command guidance (styles, syntax, examples, preferred usage) for commands worth documenting beyond the public docs, one file per command.

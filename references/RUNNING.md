@@ -33,7 +33,7 @@ Runs `input.asx`.
 - `-status filename` — where to write status output.
 - `-warn none/filename` (`-w`) — warnings destination.
 
-A complete list of command-line options is in the Aspherix documentation under "Aspherix Solver -> Getting Started -> Command-line options".
+A complete list of command-line options is at `https://doc.aspherix-dem.com/solver/Section_commandline.html` in the Aspherix Solver documentation (see `DOC_SEARCH.md`).
 
 ## Running a simulation and reading its log
 

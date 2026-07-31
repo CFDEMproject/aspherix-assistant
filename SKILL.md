@@ -46,10 +46,10 @@ See `references/PYTHON.md`
 
 ## Public Documentation
 
-The public Aspherix documentation, a static Sphinx + Read the Docs website.
+The Aspherix documentation root ([website](https://doc.aspherix-dem.com/)) covers several products (Solver, GUI, Calibration, CFDEMcoupling); this skill only works with the **Aspherix Solver** section, since that's what its `.asx` input scripts target.
 
-0. [website](https://doc.aspherix-dem.com/)
-1. [index](https://doc.aspherix-dem.com/genindex.html)
+0. [Solver docs](https://doc.aspherix-dem.com/solver/)
+1. [Solver index](https://doc.aspherix-dem.com/solver/genindex.html)
 
 See `references/DOC_SEARCH.md` for how to find and fetch the right page instead of searching or pulling whole pages into a scratch file.
 
