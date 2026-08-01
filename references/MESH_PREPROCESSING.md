@@ -25,3 +25,7 @@ If a mesh viewer is available (e.g. ParaView, `fstl`), offer to open the mesh fo
 
 A mesh with an opening, gap, or missing surface in it may be modeling a real, intentional feature (an inlet, an outlet, a vent) rather than a defect.
 Before treating something found during import/healing as a problem to fix, consider whether the case description already implies that feature is supposed to be there — and if it's ambiguous, treat it as worth confirming rather than silently "fixing" (patching) or silently leaving it open.
+
+## Deriving regions from a mesh
+
+Size a region (insertion zone, operating envelope) from the mesh's enclosed interior, not its bounding box — the box includes non-structural features (flange, lip, bracket) that can extend past what's actually enclosed. Derive it from a mid-span cross-section instead, and verify enclosure (ray-cast the region's footprint, confirm each sample hits a bounding surface) rather than just checking the region is clear of mesh vertices.
