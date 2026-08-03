@@ -25,3 +25,13 @@ If a mesh viewer is available (e.g. ParaView, `fstl`), offer to open the mesh fo
 
 A mesh with an opening, gap, or missing surface in it may be modeling a real, intentional feature (an inlet, an outlet, a vent) rather than a defect.
 Before treating something found during import/healing as a problem to fix, consider whether the case description already implies that feature is supposed to be there — and if it's ambiguous, treat it as worth confirming rather than silently "fixing" (patching) or silently leaving it open.
+
+## Deriving internal regions inside a mesh
+
+When creating a region (eg. insertion zone) inside of a mesh size the region from the mesh's enclosed interior, not its bounding box.
+The bounding box may include non-structural features (flange, lip, bracket) that can extend past what's actually enclosed.
+Create the region from a mid-span cross-section.
+In an interactive session you may prompt the user to verify the region visually (eg. `Paraview`).
+When operating autonomously you need to verify the enclosure correctly (collision detection between triangles and the region) rather than just checking the region is clear of mesh vertices.
+
+For post-processing some regions may extend outside of the mesh domain if required (eg. a bounding box over a segment of a tube to count particles inside the tube is perfectly valid if particles are only inside the tube).
