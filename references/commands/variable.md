@@ -94,9 +94,35 @@ The docs also describe `c_ID` (compute) and `f_ID` (fix) reference syntax for pu
 Per `../RULES.md`, `compute` and `fix` commands themselves are avoided in favor of `calculate` and native declarative commands — so these reference forms shouldn't come up in practice.
 If a case still needs one, treat it as a signal that the underlying `compute`/`fix` command should be replaced with its native equivalent first, rather than reached into via a variable.
 
-## Referencing variables
+## Referencing variables: `${name}` vs `v_name`
 
-- `${name}` — immediate substitution, evaluated when the command line is parsed.
-- `v_name` — deferred reference, evaluated at the point the enclosing command (e.g. `calculate`, `output_settings`) actually runs.
+- `${name}` — immediate substitution: the command line is rewritten with the variable's *current* value at parse time, then behaves like a plain literal from then on. It won't change later even if the variable's formula would evaluate differently.
+- `v_name` — deferred reference: the enclosing command keeps the reference itself and re-evaluates the variable's formula every time it runs.
 
-Use `${name}` for one-time substitution (e.g. in `print`), and `v_name` when the value needs to be re-evaluated over time (e.g. inside an output or trigger command).
+### Decision rule
+
+Ask whether the enclosing command runs once or repeatedly over the course of the simulation:
+
+- Runs once (parsed and done) -> `${name}` is fine, e.g. `print`, a one-time `region`/`group` setup value.
+- Runs repeatedly over time (each timestep, each output write, each status print, each trigger check) -> use `v_name` so the value tracks changes instead of being frozen at parse time, e.g. `status`, `status_style`, `output_settings`, `calculate`, mesh motion parameters, insertion rates.
+
+```
+variable s equal logfreq(10,3,10)
+status ${s}   # wrong: substitutes s's value once, at parse time, as a fixed number
+status v_s    # right: re-evaluates s's formula at every trigger point
+```
+
+`${name}` substitutes silently either way (no parse error), so picking the wrong one doesn't fail loudly — the case just runs with a stale, frozen number. Check for this specifically when reviewing a case.
+
+### Referencing a variable from inside another variable's formula: always `v_name`
+
+When an `equal`/`atom`/`boolean` formula needs another variable's value, use `v_name`, never `${name}`.
+`${name}` parses without error here but crashes Aspherix the moment the formula is actually evaluated — a known bug in Aspherix itself, not something a case can work around other than avoiding this form.
+
+```
+variable threshold equal 0.001
+variable settled boolean "ke(all,insertion_region) <= v_threshold"    # right
+variable settled boolean "ke(all,insertion_region) <= ${threshold}"  # wrong: crashes on evaluation
+```
+
+This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine — the bug only affects nesting a variable reference inside another variable's own formula.
