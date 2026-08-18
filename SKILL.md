@@ -51,7 +51,7 @@ The Aspherix documentation root ([website](https://doc.aspherix-dem.com/)) cover
 0. [Solver docs](https://doc.aspherix-dem.com/solver/)
 1. [Solver index](https://doc.aspherix-dem.com/solver/genindex.html)
 
-See `references/DOC_SEARCH.md` for how to find and fetch the right page instead of searching or pulling whole pages into a scratch file.
+See `references/DOC_SEARCH.md` for how to find and fetch the right page instead of searching or pulling whole pages into a scratch file — including the 3-strategy escalation for fetching a page section (fetch-tool prompt → subagent-run `scripts/fetch_section.py` → running that script yourself) when a fetch tool's own summarization drops or paraphrases dense reference content.
 
 ## Example Cases
 
