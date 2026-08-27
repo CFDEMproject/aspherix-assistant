@@ -48,6 +48,7 @@ Only do this if Python is available in the environment — check first, same as 
 Follow `PYTHON.md` for how to run/install into whatever environment is already set up, rather than assuming a bare `python`/`pip`.
 - The script should run standalone from the command line (e.g. `python plot_results.py`) using commonly available libraries (e.g. pandas/matplotlib), reading the CSV path as an argument or a sensible default next to it — it must not depend on an agent, a skill, or any tool only available inside this assistant.
 - If the environment also supports generating a richer HTML artifact (e.g. via a `dataviz` skill), produce that in addition to the standalone script, not instead of it — the script is the reusable, agent-independent artifact; the HTML page is a nicer one-off view of the same data.
+- When copying a plotting script to a new case, re-check unit conversions and coarse-graining scaling — physical assumptions that don't travel with a copy-pasted script.
 
 ## Sequencing
 
