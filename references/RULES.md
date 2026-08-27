@@ -73,3 +73,7 @@ As a rule of thumb, set `write_to_terminal_timestep` to a smaller value than `wr
 
 Large timesteps may cause numerical instability.
 Refer to the `check_timestep` command.
+
+## Cross-script Parameter Consistency
+
+Shared parameters (e.g. `simulation_timestep`) across split scripts (`init.asx`, `main.asx`, ...) aren't enforced automatically — confirm they still match before running.
