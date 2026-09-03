@@ -38,8 +38,10 @@ When creating a region (eg. insertion zone) inside of a mesh, size it from the m
 This applies whether the session is interactive or autonomous.
 Prefer casting a ray from a point already known to be inside, out to each candidate boundary, and reading the first-hit distance to the real wall - a "vote inside by ray-parity" check is unreliable whenever the mesh has large intentional openings elsewhere, since a ray can pass straight through one and flip the verdict.
 
-A short solver run with `check_overlap yes` on a modest particle count is a cheap extra cross-check, but only *after* the user has confirmed the region, never before - a solver run on your own unconfirmed region is still a case run on unconfirmed geometry.
-
 In an interactive session, also prompt the user to verify the region visually (eg. `Paraview`) - additional to the geometric check, not a replacement for it.
 
 For post-processing some regions may extend outside of the mesh domain if required (eg. a bounding box over a segment of a tube to count particles inside the tube is perfectly valid if particles are only inside the tube).
+
+A short solver run with `check_overlap yes` on a modest particle count can be used as an extra cross-check.
+Depending on the particle count this can be expensive.
+*ONLY ATTEMPT THIS AFTER* the user has confirmed the region, never before.

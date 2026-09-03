@@ -45,7 +45,7 @@ Prefer to use the Aspherix's native `output_settings` command for generating out
 
 Several commands only work once others have already been declared, and the error you get often doesn't name the missing command directly - confirmed repeatedly by hitting the actual error rather than reading ahead:
 
-- `atom_style` must be declared before `simulation_domain` (and before any other command that creates the simulation box).
+- `particle_shape` must be declared before `simulation_domain` (and before any other command that creates the simulation box).
 - `material_interaction_properties` must be declared before `particle_contact_model`/`wall_contact_model` reference the materials involved.
 - A mesh with `solid yes` is not on its own enough to make it act as a wall in the simulation - `wall_contact_model` (a separate command from `particle_contact_model`, which only governs particle-particle contact) must also be declared, or Aspherix rejects every mesh at `simulate` time ("mesh `<id>` should be used for either insertion, wall or massflow measurement").
 - `enable_gravity` is not on by default - required for any real dynamics, including `simulate mode until_filled`/`until_settled`.
