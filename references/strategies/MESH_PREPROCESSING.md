@@ -36,9 +36,22 @@ When creating a region (eg. insertion zone) inside of a mesh, size it from the m
 
 **Verify any such region with a real geometric check against the mesh's triangles before using it or showing it to the user** - not just checking that its corners or a few mesh vertices are clear.
 This applies whether the session is interactive or autonomous.
-Prefer casting a ray from a point already known to be inside, out to each candidate boundary, and reading the first-hit distance to the real wall - a "vote inside by ray-parity" check is unreliable whenever the mesh has large intentional openings elsewhere, since a ray can pass straight through one and flip the verdict.
 
-In an interactive session, also prompt the user to verify the region visually (eg. `Paraview`) - additional to the geometric check, not a replacement for it.
+Do the check with a mesh-processing library (`trimesh`), not by hand, and prefer a direct collision test over inferring position from sampled ray distances.
+- Build the candidate region as its own simple mesh (box/cylinder).
+- Test it against the wall mesh with `trimesh.collision.CollisionManager` (backed by `python-fcl`).
+- `manager.in_collision_internal()` reports whether the region's boundary touches or crosses any wall triangle at all.
+
+The collision test needs no watertightness or manifold mesh - it's a plain triangle-triangle intersection.
+It works the same whether the mesh has holes, non-manifold edges, or an intentional opening; watertightness is neither guaranteed for a real mesh nor required here.
+
+No collision plus one point already known to be inside the mesh together confirm the whole region is inside, since a region with no boundary crossing can't have leaked to the wrong side of the wall.
+That "known-inside" point has to come from domain knowledge - the case description, or the user's own visual confirmation - not from an automated point-in-mesh classifier.
+
+See `PYTHON.md` for getting `trimesh`/`python-fcl` installed without a global `pip install`.
+
+In an interactive session, prompt the user to verify the region visually (eg. `Paraview`).
+This is in addition to the geometric check, not a replacement for it.
 
 For post-processing some regions may extend outside of the mesh domain if required (eg. a bounding box over a segment of a tube to count particles inside the tube is perfectly valid if particles are only inside the tube).
 
