@@ -14,6 +14,14 @@ This repo defines a Claude Code **skill** named "Aspherix Assistant" — it is n
 - `references/strategies/STRATEGIES.md` — short, self-contained problem-solving strategies (a few sentences each). A strategy that needs its own examples or multi-step walkthrough gets its own `references/strategies/<name>.md` file, linked from `STRATEGIES.md`.
 - `references/RUNNING.md` — how to invoke the `aspherix` CLI binary itself (flags, basic usage), as opposed to `.asx` input script content, which belongs in `references/commands/` or `references/RULES.md`.
 
+## Markdown/docs formatting
+
+Do not hard-wrap prose lines in `SKILL.md`, `references/`, or this file at ~70-80 characters.
+Use one sentence per line instead: each sentence gets its own line, with no manual mid-sentence line breaks.
+Let the rendering editor/viewer soft-wrap sentences that exceed the display width.
+This applies to prose paragraphs only — code blocks, tables, and lists are unaffected, though a list item with multiple sentences should still put each sentence on its own line within the item.
+This keeps diffs to the sentence(s) that actually changed instead of reflowing an entire paragraph.
+
 ## Commit messages
 
 Every commit made by an AI agent must end with a `Co-Authored-By:` trailer naming the specific model that wrote it (e.g. `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`), not a generic tool name.
