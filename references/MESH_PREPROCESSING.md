@@ -33,6 +33,7 @@ Before treating something found during import/healing as a problem to fix, consi
 ## Deriving internal regions inside a mesh
 
 When creating a region (eg. insertion zone) inside of a mesh, size it from the mesh's enclosed interior, not its bounding box - the box can include non-structural features (flange, lip, bracket), and the true interior is often narrower or differently shaped in ways easy to miss by reasoning about coordinates alone.
+Create the region from a mid-span cross-section.
 
 **Verify any such region with a real geometric check against the mesh's triangles before using it or showing it to the user** - not just checking that its corners or a few mesh vertices are clear.
 This applies whether the session is interactive or autonomous.
