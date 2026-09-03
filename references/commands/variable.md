@@ -114,9 +114,9 @@ status v_s    # right: re-evaluates s's formula at every trigger point
 
 `${name}` substitutes silently either way (no parse error), so picking the wrong one doesn't fail loudly — the case just runs with a stale, frozen number. Check for this specifically when reviewing a case.
 
-### Referencing a variable from inside another variable's formula: always `v_name`
+### Referencing a variable from inside a `boolean` formula: always `v_name`
 
-When an `equal`/`atom`/`boolean` formula needs another variable's value, use `v_name`, never `${name}`.
+When a `boolean` formula needs another variable's value, use `v_name`, never `${name}`.
 `${name}` parses without error here but crashes Aspherix the moment the formula is actually evaluated — a known bug in Aspherix itself, not something a case can work around other than avoiding this form.
 
 ```
@@ -125,4 +125,6 @@ variable settled boolean "ke(all,insertion_region) <= v_threshold"    # right
 variable settled boolean "ke(all,insertion_region) <= ${threshold}"  # wrong: crashes on evaluation
 ```
 
-This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine — the bug only affects nesting a variable reference inside another variable's own formula.
+This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine — the bug only affects nesting a variable reference inside a `boolean` formula specifically.
+This bug has only been observed with `boolean` formulas; nesting a variable reference inside an `equal` (or `atom`) formula with `${name}` has not shown the same crash, so the normal decision rule above (does the enclosing command run once or repeatedly) still applies there.
+When in doubt, `v_name` is always safe to use instead — this note only means `${name}` isn't required to fail in the `equal`/`atom` case, not that it's preferred.
