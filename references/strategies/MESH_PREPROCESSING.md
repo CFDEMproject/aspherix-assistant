@@ -20,7 +20,7 @@ Reach for a short, cheap dropping/settling test of a modest number of particles 
 
 A harder blind spot: `simulate time 0` never evaluates Aspherix's mesh-quality hard limits (sub-degree sliver angles, >5 edge-neighbors) — those only trigger once a real run has a particle, `particle_contact_model`, and `wall_contact_model` present.
 A mesh can pass the import check and still hard-error on first real use; that's a first discovery, not a wrong earlier check.
-The same `PROCESS_ORDER.md` heal/remesh escalation applies, with `element_exclusion_list` (`mode write` to discover, `mode read` to skip) as the last resort for residual elements.
+The same heal/remesh escalation from "Healing / topological repair" above applies, with `element_exclusion_list` (`mode write` to discover, `mode read` to skip) as the last resort for residual elements.
 
 In an interactive session, prompt the user to visually inspect the mesh as part of that debugging — human eyes are very good at spotting the kind of defect (a flipped normal, a gap, an unexpected facet) that's tedious to characterize programmatically.
 If a mesh viewer is available (e.g. ParaView, `fstl`), offer to open the mesh for the user yourself after prompting, rather than only pointing them to a viewer.
