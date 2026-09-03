@@ -43,29 +43,14 @@ Prefer to use the Aspherix's native `output_settings` command for generating out
 
 ## Command Ordering and Cross-Command Dependencies
 
-Several commands only work once others have already been declared, and the
-error you get often doesn't name the missing command directly - confirmed
-repeatedly by hitting the actual error rather than reading ahead:
+Several commands only work once others have already been declared, and the error you get often doesn't name the missing command directly - confirmed repeatedly by hitting the actual error rather than reading ahead:
 
-- `atom_style` must be declared before `simulation_domain` (and before any
-  other command that creates the simulation box).
-- `material_interaction_properties` must be declared before
-  `particle_contact_model`/`wall_contact_model` reference the materials
-  involved.
-- A mesh with `solid yes` is not on its own enough to make it act as a wall
-  in the simulation - `wall_contact_model` (a separate command from
-  `particle_contact_model`, which only governs particle-particle contact)
-  must also be declared, or Aspherix rejects every mesh at `simulate` time
-  ("mesh `<id>` should be used for either insertion, wall or massflow
-  measurement").
-- `enable_gravity` is not on by default - required for any real dynamics,
-  including `simulate mode until_filled`/`until_settled`.
-- A material's own self-interaction (friction, restitution, etc. against
-  itself) belongs on `material_properties`, not
-  `material_interaction_properties` (which is only for a *pair* of distinct
-  materials and errors with "materials are identical" otherwise). All
-  materials need a matching *count* of properties declared, even ones that
-  never actually contact each other in the case.
+- `atom_style` must be declared before `simulation_domain` (and before any other command that creates the simulation box).
+- `material_interaction_properties` must be declared before `particle_contact_model`/`wall_contact_model` reference the materials involved.
+- A mesh with `solid yes` is not on its own enough to make it act as a wall in the simulation - `wall_contact_model` (a separate command from `particle_contact_model`, which only governs particle-particle contact) must also be declared, or Aspherix rejects every mesh at `simulate` time ("mesh `<id>` should be used for either insertion, wall or massflow measurement").
+- `enable_gravity` is not on by default - required for any real dynamics, including `simulate mode until_filled`/`until_settled`.
+- A material's own self-interaction (friction, restitution, etc. against itself) belongs on `material_properties`, not `material_interaction_properties` (which is only for a *pair* of distinct materials and errors with "materials are identical" otherwise).
+  All materials need a matching *count* of properties declared, even ones that never actually contact each other in the case.
 
 ## Default Values
 
@@ -104,4 +89,6 @@ Refer to the `check_timestep` command.
 
 Shared parameters (e.g. `simulation_timestep`) across split scripts (`init.asx`, `main.asx`, ...) aren't enforced automatically — confirm they still match before running.
 
-This includes a stop condition expressed as "N% of an earlier state" (e.g. a settled particle/mass count from a prior `fill`-style script) — Aspherix's variable system cannot snapshot a value from earlier in the *same* script for later comparison either, let alone across scripts (referencing one variable from inside another's formula either crashes at evaluation via `${name}`, or silently re-evaluates live every time via `v_name` — neither freezes a value; see `commands/variable.md`). This kind of threshold has to be computed externally, from the prior script's *actual* achieved output, and hardcoded - never derived from the originally intended target. Confirmed directly: a threshold sized for an intended count that insertion didn't fully reach (see `strategies/STRATEGIES.md`'s packing-generator entry) made `simulate mode until_condition_reached` satisfy on its very first check - no error, just a silent early exit that looks like the run did nothing.
+This includes a stop condition expressed as "N% of an earlier state" (e.g. a settled particle/mass count from a prior `fill`-style script) — Aspherix's variable system cannot snapshot a value from earlier in the *same* script for later comparison either, let alone across scripts (referencing one variable from inside another's formula either crashes at evaluation via `${name}`, or silently re-evaluates live every time via `v_name` — neither freezes a value; see `commands/variable.md`).
+This kind of threshold has to be computed externally, from the prior script's *actual* achieved output, and hardcoded - never derived from the originally intended target.
+Confirmed directly: a threshold sized for an intended count that insertion didn't fully reach (see `strategies/STRATEGIES.md`'s packing-generator entry) made `simulate mode until_condition_reached` satisfy on its very first check - no error, just a silent early exit that looks like the run did nothing.

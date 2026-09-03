@@ -41,7 +41,8 @@ Counter that directly in the prompt:
 
 If the result still looks incomplete (an argument you expected is missing, or you got prose where you asked for a table), retry the same URL with an even narrower prompt scoped to a single argument before moving to Strategy 2 — most such tools cache by URL for a short window, so repeat asks against the same page are cheap.
 
-Treat a Strategy 1 claim that specific content is *entirely absent* from the page with the same suspicion as an incomplete table, not as authoritative — confirmed directly: asked for a documented property-name table, got back "the page does not include this," then re-fetched the same section with `scripts/fetch_section.py` and found it present and complete. A small fetch-model summarizing a page can wrongly report "not here" for content that plausibly belongs there, not just paraphrase what it did find.
+Treat a Strategy 1 claim that specific content is *entirely absent* from the page with the same suspicion as an incomplete table, not as authoritative — confirmed directly: asked for a documented property-name table, got back "the page does not include this," then re-fetched the same section with `scripts/fetch_section.py` and found it present and complete.
+A small fetch-model summarizing a page can wrongly report "not here" for content that plausibly belongs there, not just paraphrase what it did find.
 
 ### Strategy 2: a subagent runs `scripts/fetch_section.py`
 
