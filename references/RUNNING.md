@@ -44,6 +44,20 @@ Reading the whole thing into context will pollute it.
 - When checking output, prefer `tail`, `grep`, or piping through a filter over reading the whole log file — e.g. check the last N lines for the final status, or grep for `ERROR`/`WARN`.
 - Set `-log filename` (rather than leaving it on screen/stdout) so the log can be searched/filtered on disk instead of scrolling through captured terminal output.
 
+## Parallel execution
+
+Parallelism is a launcher, not a solver flag: `mpirun -np N aspherix -in input.asx`.
+Skip the wrapper at N=1 rather than `mpirun -np 1`.
+
+Check the load balance rather than assuming every rank is busy: each `simulate` block's summary reports `Nlocal: ave <a> max <b> min <c>`, and a `min` of 0 means a rank holds no particles at all.
+Expect this wherever `simulation_domain` is much larger than the region the particles actually occupy, which it must be whenever geometry extends beyond them.
+See `balance` (one-off) and `fix balance` (continuous).
+
+## Estimating how long a run will take
+
+Use the built-in `cu` status column (Cundall number) rather than extrapolating a wall-clock rate by hand — `status_style.html` gives its definition and the wall-time formula.
+It is in the default column set (`commands/status.md`), and predicted total wall time to within ~15% when checked against a completed run.
+
 ## Concurrent runs
 
 Never start a second `aspherix` process against a case directory that already has a run in progress.

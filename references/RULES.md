@@ -92,3 +92,9 @@ Shared parameters (e.g. `simulation_timestep`) across split scripts (`init.asx`,
 This includes a stop condition expressed as "N% of an earlier state" (e.g. a settled particle/mass count from a prior `fill`-style script) — Aspherix's variable system cannot snapshot a value from earlier in the *same* script for later comparison either, let alone across scripts (referencing one variable from inside another's formula either crashes at evaluation via `${name}`, or silently re-evaluates live every time via `v_name` — neither freezes a value; see `commands/variable.md`).
 This kind of threshold has to be computed externally, from the prior script's *actual* achieved output, and hardcoded - never derived from the originally intended target.
 Confirmed directly: a threshold sized for an intended count that insertion didn't fully reach (see `strategies/STRATEGIES.md`'s packing-generator entry) made `simulate mode until_condition_reached` satisfy on its very first check - no error, just a silent early exit that looks like the run did nothing.
+
+A threshold on an *extensive* quantity — total `ke(...)`, total mass, a particle count — must likewise be rescaled whenever the particle count is, since it states a total over the system rather than a per-particle condition.
+Derive it as `<per-particle value> * <this script's actual count>`, or avoid the problem with an intensive criterion — `simulate mode until_settled` breaks on a velocity threshold, which holds at any scale.
+
+State handed between scripts needs the same care: `read_restart` reads whatever file is at the path, with no record of what wrote it (`read_restart.html`), so record provenance beside it — script, achieved count, timestamp — and check that before the phase that consumes it.
+Write intermediate restarts during long runs, since one reached only at the end is lost if the run is aborted.
