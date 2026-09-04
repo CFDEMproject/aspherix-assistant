@@ -16,6 +16,12 @@ If a case needs a smooth curved surface without shrinking every triangle to part
 
 A mesh (walls, moving geometry) imported into a case may need preprocessing before Aspherix will accept it or before it'll behave correctly — unit mismatches, topological defects caught at import, mesh-quality hard limits that only trigger on first real use, distinguishing intentional geometry from defects, and deriving/verifying regions from a mesh's actual enclosed interior.
 See `strategies/MESH_PREPROCESSING.md` for the full walkthrough.
+=======
+## What a reduced-scale ("smoke") run establishes
+
+Running a script at a much lower particle count validates plumbing — it parses, meshes import, motion and measurement commands bind, output appears — but not physics or termination.
+Packing geometry changes with count, so anything driven by bed depth (conveying, shearing, burden weight) becomes a different problem rather than a smaller one; check where the particles actually settle before treating a reduced run as representative.
+Cost does not scale with count either, since wall meshes are re-binned every timestep however few particles there are — compare wall-triangle count against particle count first, and note that moving meshes cost substantially more per step than static ones (measured ~4x).
 
 ## Artificially soft Young's modulus for numerical stability
 
