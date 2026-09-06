@@ -40,17 +40,17 @@ If the preferred choice turns out to be GPU-unsupported, look for a GPU-supporte
 A sphere is the default shape for a reason (cheapest to simulate) — but for markedly non-spherical particles (elongated, angular, flat), represent that with either a genuinely non-spherical shape (multi-sphere, convex/concave, superquadric) or a rolling-friction contact model on ordinary spheres.
 Prefer rolling friction by default: it approximates bulk flow behavior (angle of repose, mixing) well at much lower cost, and is sufficient unless the particle geometry itself is what the case needs to get right.
 
-## `simulate mode until_filled` is for continuous insertion, not one-shot `pack`
+## `simulate mode until_filled`/`until_settled` - pick the mode that matches the insertion style
 
-`insertion mode pack` inserts its full target in one shot at the next `simulate` call, not as an ongoing stream.
-Pairing it with `simulate mode until_filled` is still a mistake, but for a more specific reason than "the two don't compose well": confirmed directly, in isolation, with nothing after `until_filled` in the script - once its own convergence criterion is met, `until_filled` itself issues a literal internal `delete_atoms region deletion_region_ remove_multispheres_completely yes`, wiping every particle in the case, no error or warning.
-For a one-shot `pack` insertion, use `simulate mode until_settled` (optionally with its own `velocity_threshold`) instead - it settles the already-inserted bed without this cleanup step.
-Reserve `until_filled` for `stream`/`rate_in_region`-style continuous insertion, where deleting a trial fill before the real one starts is presumably the intended behavior.
+See `simulate.html` for what each mode actually checks - don't guess from the name. In short: `until_filled` assumes a `pack`-then-`stream` pattern and is not a fit for a one-shot `pack` (use `until_settled` instead) or for a `rate_in_region` insertion with its own `target_particle_count`/`target_mass` (use a separate `until_condition_reached` on that target, then `until_settled` - `until_settled`'s own convergence check is not reliable while insertion is still running, per its documented note).
 
-## `packing_generator style simple` can fall well short of a high target
+## Verify a `pack` insertion actually reached its target
 
-The default `insertion mode pack` packing generator (`style simple`) can insert noticeably fewer particles than requested once the target volume fraction in the insertion region gets high - Aspherix prints its own warning (`Less insertions than requested (NN%)`) and suggests `packing_generator style dense_experimental` (previously `dense`) as the fix.
-Check the actual inserted count against the target after any `pack` insertion rather than assuming it was met - a silent shortfall here doesn't just under-fill the case, it can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").
+See `insertion.html` for `packing_generator` styles, the `dense_experimental` ceiling, and when to prefer `rate_in_region` over any one-shot packing style. Whichever style is used, check the actual inserted count against the target afterward rather than assuming it was met - a silent shortfall can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").
+
+## Ramp prescribed mesh motion from rest, don't start it at full speed
+
+See `mesh_module_motion.html`'s note on starting at full speed, and `variable.html`'s note on building a temporal ramp for a `simulate`-based script (not the `ramp(x,y)` math function, which isn't a fit there) - apply that general pattern to the motion command's velocity/period/omega argument.
 
 ## Cohesion
 
