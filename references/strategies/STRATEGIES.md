@@ -17,6 +17,14 @@ If a case needs a smooth curved surface without shrinking every triangle to part
 A mesh (walls, moving geometry) imported into a case may need preprocessing before Aspherix will accept it or before it'll behave correctly — unit mismatches, topological defects caught at import, mesh-quality hard limits that only trigger on first real use, distinguishing intentional geometry from defects, and deriving/verifying regions from a mesh's actual enclosed interior.
 See `strategies/MESH_PREPROCESSING.md` for the full walkthrough.
 
+A smoke run's physics can genuinely never reach its own stop condition at reduced scale (e.g. a bed-depth-dependent process that needs a real bed to engage) — and since `until_condition_reached`/`until_settled`/`until_filled` have no timeout argument, that burns wall-clock time indefinitely with no signal anything is wrong.
+Cap a smoke-scale run's own wall-clock time (a practical default: 10 minutes) independent of its own stop condition — if it hasn't finished by then, stop it and ask the user whether the behavior genuinely needs full scale to reproduce, rather than assuming reduced scale must eventually converge.
+
+## `check_timestep` is silent unless a fraction is actually exceeded - surface it explicitly, don't rely on the absence of a warning
+
+`check_timestep` (and Aspherix's own implicit 20% check) only prints when a fraction is exceeded - an unbroken log of no warnings means margin was never tested, not that it's safe.
+Surface it proactively instead: add its `.rayleigh_fraction`/`.hertz_fraction` (see `commands/check_timestep.md`'s reference syntax) to `status_style` in every phase of a case, not just where a problem is already suspected - each phase can have a different effective timestep, so margin in one says nothing about another.
+
 ## Artificially soft Young's modulus for numerical stability
 
 Real material Young's moduli (e.g. ~200 GPa for steel, ~70 GPa for glass) push Hertzian contact stiffness high enough that the resulting Rayleigh/Hertz timestep (see `commands/check_timestep.md`) becomes impractically small — a case built with a literal, "realistic" Young's modulus is one of the most common sources of instability or outright errors on first run, not a solver bug.
@@ -42,6 +50,14 @@ For a one-shot `pack` insertion, use `simulate mode until_settled` (optionally w
 Reserve `until_filled` for `stream`/`rate_in_region`-style continuous insertion, where deleting a trial fill before the real one starts is presumably the intended behavior.
 
 ## `packing_generator style simple` can fall well short of a high target
+=======
+`packing_generator style dense`'s undershoot tracks the resulting volume fraction (target particle volume / region volume), not the target count itself - confirmed on a real case, a higher target count that also raised the volume fraction converged *closer* to target, not further from it. This matches the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead): don't assume a bigger target will undershoot proportionally worse just because it's a bigger ask. Still verify the actual count either way, per the rule above.
+
+## Writing a periodic restart checkpoint, not just one at the end
+
+`RULES.md`'s "Cross-script Parameter Consistency" section says to write intermediate restarts during long runs; this is the concrete mechanism. Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once. Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way. If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
+
+## Ramp prescribed mesh motion from rest, don't start it at full speed
 
 The default `insertion mode pack` packing generator (`style simple`) can insert noticeably fewer particles than requested once the target volume fraction in the insertion region gets high - Aspherix prints its own warning (`Less insertions than requested (NN%)`) and suggests `packing_generator style dense_experimental` (previously `dense`) as the fix.
 Check the actual inserted count against the target after any `pack` insertion rather than assuming it was met - a silent shortfall here doesn't just under-fill the case, it can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").

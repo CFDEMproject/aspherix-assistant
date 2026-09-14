@@ -51,6 +51,9 @@ Several commands only work once others have already been declared, and the error
 - `enable_gravity` is not on by default - required for any real dynamics, including `simulate mode until_filled`/`until_settled`.
 - A material's own self-interaction (friction, restitution, etc. against itself) belongs on `material_properties`, not `material_interaction_properties` (which is only for a *pair* of distinct materials and errors with "materials are identical" otherwise).
   All materials need a matching *count* of properties declared, even ones that never actually contact each other in the case.
+- Material names must be declared via `materials {name1, name2, ...}` before `material_properties`/`material_interaction_properties` reference them.
+- `simulation_timestep` must be declared before `insertion` and `check_timestep` - declare it right after mesh imports, not grouped with output-settings near the bottom of a script.
+- Any `simulate` call beyond `simulate time 0` needs a `particle_template` *and* a `particle_distribution` referencing it, even for a minimal mesh-import test with no real particles inserted - a template alone isn't enough.
 
 ## Default Values
 
