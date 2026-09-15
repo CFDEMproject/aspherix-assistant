@@ -22,6 +22,13 @@ See `strategies/MESH_PREPROCESSING.md` for the full walkthrough.
 Running a script at a much lower particle count validates plumbing — it parses, meshes import, motion and measurement commands bind, output appears — but not physics or termination.
 Packing geometry changes with count, so anything driven by bed depth (conveying, shearing, burden weight) becomes a different problem rather than a smaller one; check where the particles actually settle before treating a reduced run as representative.
 Cost does not scale with count either, since wall meshes are re-binned every timestep however few particles there are — compare wall-triangle count against particle count first, and note that moving meshes cost substantially more per step than static ones (measured ~4x).
+A smoke run's physics can genuinely never reach its own stop condition at reduced scale (e.g. a bed-depth-dependent process that needs a real bed to engage) — and since `until_condition_reached`/`until_settled`/`until_filled` have no timeout argument, that burns wall-clock time indefinitely with no signal anything is wrong.
+Cap a smoke-scale run's own wall-clock time (a practical default: 10 minutes) independent of its own stop condition — if it hasn't finished by then, stop it and ask the user whether the behavior genuinely needs full scale to reproduce, rather than assuming reduced scale must eventually converge.
+
+## `check_timestep` is silent unless a fraction is actually exceeded - surface it explicitly, don't rely on the absence of a warning
+
+`check_timestep` (and Aspherix's own implicit 20% check) only prints when a fraction is exceeded - an unbroken log of no warnings means margin was never tested, not that it's safe.
+Surface it proactively instead: add its `.rayleigh_fraction`/`.hertz_fraction` (see `commands/check_timestep.md`'s reference syntax) to `status_style` in every phase of a case, not just where a problem is already suspected - each phase can have a different effective timestep, so margin in one says nothing about another.
 
 ## Artificially soft Young's modulus for numerical stability
 
@@ -51,6 +58,16 @@ See `insertion.html` for `packing_generator` styles, the `dense_experimental` ce
 ## Ramp prescribed mesh motion from rest, don't start it at full speed
 
 See `mesh_module_motion.html`'s note on starting at full speed, and `variable.html`'s note on building a temporal ramp for a `simulate`-based script (not the `ramp(x,y)` math function, which isn't a fit there) - apply that general pattern to the motion command's velocity/period/omega argument.
+
+`packing_generator style dense`'s undershoot tracks the resulting volume fraction (target particle volume / region volume), not the target count itself - a higher target count that also raises the volume fraction converges *closer* to target, not further from it, matching the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead).
+Don't assume a bigger target will undershoot proportionally worse just because it's a bigger ask - still verify the actual count either way, per the rule above.
+
+## Writing a periodic restart checkpoint, not just one at the end
+
+`RULES.md`'s "Simulation Output" section says to write intermediate restarts during long runs; this is the concrete mechanism.
+Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once.
+Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way.
+If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 
 ## Cohesion
 

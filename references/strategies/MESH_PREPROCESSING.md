@@ -21,6 +21,7 @@ Reach for a short, cheap dropping/settling test of a modest number of particles 
 A harder blind spot: `simulate time 0` never evaluates Aspherix's mesh-quality hard limits (sub-degree sliver angles, >5 edge-neighbors) — those only trigger once a real run has a particle, `particle_contact_model`, and `wall_contact_model` present.
 A mesh can pass the import check and still hard-error on first real use; that's a first discovery, not a wrong earlier check.
 The same heal/remesh escalation from "Healing / topological repair" above applies, with `element_exclusion_list` (`mode write` to discover, `mode read` to skip) as the last resort for residual elements.
+Getting to a real run that actually exercises this needs the full command chain, not just `particle_contact_model`/`wall_contact_model` — see `../RULES.md`'s Command Ordering section.
 
 In an interactive session, prompt the user to visually inspect the mesh as part of that debugging — human eyes are very good at spotting the kind of defect (a flipped normal, a gap, an unexpected facet) that's tedious to characterize programmatically.
 If a mesh viewer is available (e.g. ParaView, `fstl`), offer to open the mesh for the user yourself after prompting, rather than only pointing them to a viewer.
@@ -47,6 +48,11 @@ It works the same whether the mesh has holes, non-manifold edges, or an intentio
 
 No collision plus one point already known to be inside the mesh together confirm the whole region is inside, since a region with no boundary crossing can't have leaked to the wrong side of the wall.
 That "known-inside" point has to come from domain knowledge - the case description, or the user's own visual confirmation - not from an automated point-in-mesh classifier.
+
+**Run the same collision test against every other solid mesh in the case, not just the enclosing housing/wall.**
+"Inside the housing" and "clear of every solid part" are different claims - a region checked clean against the housing alone can still overlap a screw/impeller/baffle that occupies part of the same interior.
+Repeat the `CollisionManager` check once per other solid mesh the region might plausibly reach.
+(Overlapping a moving part isn't automatically wrong the way overlapping the housing is - `insertion`'s own `check_overlap` rejects placements that would actually overlap real geometry - but confirm that's what's wanted before relying on it instead of a collision-clear region.)
 
 See `PYTHON.md` for getting `trimesh`/`python-fcl` installed without a global `pip install`.
 
