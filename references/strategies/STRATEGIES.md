@@ -74,6 +74,7 @@ Use `mode rate_in_region` with `insert_every_time` instead (self-limits correctl
 Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once.
 Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way.
 If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
+This mechanism is for a standalone Aspherix run only - a CFD-coupled case (`enable_cfd_coupling`) syncs restarts from the CFD side, not through this `restart` mechanism, so don't assume it applies there too (see `commands/enable_cfd_coupling.md`).
 
 ## Ramp prescribed mesh motion from rest, don't start it at full speed
 
