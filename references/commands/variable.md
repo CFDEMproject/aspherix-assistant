@@ -64,6 +64,10 @@ Examples: (Avoid -> Prefer)
 - `count_particles(assembly_group, target_region)` -> `count_particles(assembly_group,target_region)`
 - `mass( assembly_group )` -> `mass(assembly_group)`
 
+## Status keywords as formula terms
+
+Any `status_style` column keyword (`time`, `step`, `elapsed`, `dt`, ...) is also usable directly inside an `equal`/`atom`/`boolean` formula, not just group functions and `calculate`/`variable` references (below) - see `variable.html`'s Syntax section and `status_style.html` for what each keyword means.
+
 ## Referencing other commands' output
 
 `equal`, `atom`, and `boolean` formulas aren't limited to group functions (`count_particles(...)`, `mass(...)`, etc.) — they can also pull in results already produced by other commands in the script.

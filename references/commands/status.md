@@ -43,6 +43,10 @@ write_to_terminal_timestep 0.001
 
 Set `write_to_terminal_timestep` to a finer cadence than `output_settings`'s `write_output_timestep` — status output is a handful of scalars, cheap enough to sample often and genuinely useful for monitoring a running simulation, unlike the full per-particle/per-mesh snapshots `write_output_timestep` writes. See `../RULES.md`'s Simulation Output section.
 
+## Exception to the above: `simulate mode until_condition_reached`/`until_settled`/`until_filled`
+
+See `simulate.html` for the `write_output_timestep`/`write_to_terminal_timestep`/`check_convergence_every_time` constraint these modes document - both should equal `check_convergence_every_time` for that `simulate` call, overriding the finer-cadence default above.
+
 ## `status_style` — content and destination
 
 ```
