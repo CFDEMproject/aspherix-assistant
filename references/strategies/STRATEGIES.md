@@ -57,11 +57,6 @@ Reserve `until_filled` for `stream`/`rate_in_region`-style continuous insertion,
 
 `RULES.md`'s "Cross-script Parameter Consistency" section says to write intermediate restarts during long runs; this is the concrete mechanism. Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once. Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way. If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 
-## Ramp prescribed mesh motion from rest, don't start it at full speed
-
-The default `insertion mode pack` packing generator (`style simple`) can insert noticeably fewer particles than requested once the target volume fraction in the insertion region gets high - Aspherix prints its own warning (`Less insertions than requested (NN%)`) and suggests `packing_generator style dense_experimental` (previously `dense`) as the fix.
-Check the actual inserted count against the target after any `pack` insertion rather than assuming it was met - a silent shortfall here doesn't just under-fill the case, it can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").
-
 ## Cohesion
 
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
