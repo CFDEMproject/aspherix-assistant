@@ -49,7 +49,10 @@ It works the same whether the mesh has holes, non-manifold edges, or an intentio
 No collision plus one point already known to be inside the mesh together confirm the whole region is inside, since a region with no boundary crossing can't have leaked to the wrong side of the wall.
 That "known-inside" point has to come from domain knowledge - the case description, or the user's own visual confirmation - not from an automated point-in-mesh classifier.
 
-**Run the same collision test against every other solid mesh in the case, not just the enclosing housing/wall.** "Inside the housing" and "clear of every solid part" are different claims - a region checked clean against the housing alone can still overlap a screw/impeller/baffle that occupies part of the same interior. Repeat the `CollisionManager` check once per other solid mesh the region might plausibly reach. (Overlapping a moving part isn't automatically wrong the way overlapping the housing is - `insertion`'s own `check_overlap` rejects placements that would actually overlap real geometry - but confirm that's what's wanted before relying on it instead of a collision-clear region.)
+**Run the same collision test against every other solid mesh in the case, not just the enclosing housing/wall.**
+"Inside the housing" and "clear of every solid part" are different claims - a region checked clean against the housing alone can still overlap a screw/impeller/baffle that occupies part of the same interior.
+Repeat the `CollisionManager` check once per other solid mesh the region might plausibly reach.
+(Overlapping a moving part isn't automatically wrong the way overlapping the housing is - `insertion`'s own `check_overlap` rejects placements that would actually overlap real geometry - but confirm that's what's wanted before relying on it instead of a collision-clear region.)
 
 See `PYTHON.md` for getting `trimesh`/`python-fcl` installed without a global `pip install`.
 

@@ -50,12 +50,19 @@ For a one-shot `pack` insertion, use `simulate mode until_settled` (optionally w
 Reserve `until_filled` for `stream`/`rate_in_region`-style continuous insertion, where deleting a trial fill before the real one starts is presumably the intended behavior.
 
 ## `packing_generator style simple` can fall well short of a high target
-=======
-`packing_generator style dense`'s undershoot tracks the resulting volume fraction (target particle volume / region volume), not the target count itself - confirmed on a real case, a higher target count that also raised the volume fraction converged *closer* to target, not further from it. This matches the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead): don't assume a bigger target will undershoot proportionally worse just because it's a bigger ask. Still verify the actual count either way, per the rule above.
+
+The default `insertion mode pack` packing generator (`style simple`) can insert noticeably fewer particles than requested once the target volume fraction in the insertion region gets high - Aspherix prints its own warning (`Less insertions than requested (NN%)`) and suggests `packing_generator style dense_experimental` (previously `dense`) as the fix.
+Check the actual inserted count against the target after any `pack` insertion rather than assuming it was met - a silent shortfall here doesn't just under-fill the case, it can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").
+
+`packing_generator style dense`'s undershoot tracks the resulting volume fraction (target particle volume / region volume), not the target count itself - a higher target count that also raises the volume fraction converges *closer* to target, not further from it, matching the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead).
+Don't assume a bigger target will undershoot proportionally worse just because it's a bigger ask - still verify the actual count either way, per the rule above.
 
 ## Writing a periodic restart checkpoint, not just one at the end
 
-`RULES.md`'s "Cross-script Parameter Consistency" section says to write intermediate restarts during long runs; this is the concrete mechanism. Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once. Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way. If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
+`RULES.md`'s "Cross-script Parameter Consistency" section says to write intermediate restarts during long runs; this is the concrete mechanism.
+Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once.
+Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way.
+If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 
 ## Cohesion
 
