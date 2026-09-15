@@ -54,7 +54,7 @@ See `simulate.html` for what each mode actually checks - don't guess from the na
 ## Verify a `pack` insertion actually reached its target
 
 See `insertion.html` for the `packing_generator` styles (`simple`/`dense`/`batch`) and the `dense`/`dense_experimental` volume-fraction ceiling.
-`dense`'s undershoot tracks the resulting **volume fraction** (particle volume / region volume), not the raw target count - a higher target that also raises the volume fraction can converge *closer* to target, not further from it, so don't assume a bigger ask must undershoot proportionally worse.
+`dense`'s undershoot tracks the resulting **volume fraction** (particle volume / region volume), not the raw target count - a higher target that also raises the volume fraction can converge *closer* to target, not further from it, matching the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead) - so don't assume a bigger ask must undershoot proportionally worse.
 Whichever style is used, check the actual inserted count against the target afterward rather than assuming it was met (see `RULES.md`'s "Cross-script Parameter Consistency" for why that matters downstream).
 
 ## Reaching a high cumulative insertion target - don't retry `pack`
@@ -78,16 +78,6 @@ If a later phase's `read_restart` path should be swappable between the two, make
 ## Ramp prescribed mesh motion from rest, don't start it at full speed
 
 See `mesh_module_motion.html`'s note on starting at full speed, and `variable.html`'s note on building a temporal ramp for a `simulate`-based script (not the `ramp(x,y)` math function, which isn't a fit there) - apply that general pattern to the motion command's velocity/period/omega argument.
-
-`packing_generator style dense`'s undershoot tracks the resulting volume fraction (target particle volume / region volume), not the target count itself - a higher target count that also raises the volume fraction converges *closer* to target, not further from it, matching the tool's own low-volume-fraction warning (below 5%, prefer `simple` instead).
-Don't assume a bigger target will undershoot proportionally worse just because it's a bigger ask - still verify the actual count either way, per the rule above.
-
-## Writing a periodic restart checkpoint, not just one at the end
-
-`RULES.md`'s "Simulation Output" section says to write intermediate restarts during long runs; this is the concrete mechanism.
-Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once.
-Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way.
-If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 
 ## Cohesion
 
