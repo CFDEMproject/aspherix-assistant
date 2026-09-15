@@ -53,7 +53,27 @@ See `simulate.html` for what each mode actually checks - don't guess from the na
 
 ## Verify a `pack` insertion actually reached its target
 
-See `insertion.html` for `packing_generator` styles, the `dense_experimental` ceiling, and when to prefer `rate_in_region` over any one-shot packing style. Whichever style is used, check the actual inserted count against the target afterward rather than assuming it was met - a silent shortfall can also make a downstream stop condition sized for the *intended* count wrong (see `RULES.md`'s "Cross-script Parameter Consistency").
+See `insertion.html` for the `packing_generator` styles (`simple`/`dense`/`batch`) and the `dense`/`dense_experimental` volume-fraction ceiling.
+`dense`'s undershoot tracks the resulting **volume fraction** (particle volume / region volume), not the raw target count - a higher target that also raises the volume fraction can converge *closer* to target, not further from it, so don't assume a bigger ask must undershoot proportionally worse.
+Whichever style is used, check the actual inserted count against the target afterward rather than assuming it was met (see `RULES.md`'s "Cross-script Parameter Consistency" for why that matters downstream).
+
+## Reaching a high cumulative insertion target - don't retry `pack`
+
+A single one-shot `pack` insertion can't reach a high enough target on its own (see above), and retrying `pack` itself toward a region-occupancy target is a trap once particles are meant to leave the region after settling - see `insertion_pack.html`/`insertion_rate_in_region.html` for why.
+Use `mode rate_in_region` with `insert_every_time` instead (self-limits correctly via a genuine cumulative `target_particle_count`/`target_mass`), sized as a recipe rather than guessed:
+
+1. Pulse interval = region depth (fall direction) / insertion velocity, so each pulse clears the region before the next fires.
+2. Max feasible volume fraction per pulse ~20-30% (`rate_in_region` has no `packing_generator`, so it saturates via plain random sequential placement well below a packed bed) - verify against a real run rather than trusting the estimate.
+3. Pulse rate sized to request the full remaining target each pulse.
+4. Number of pulses = target volume fraction / that per-pulse ceiling, with a safety margin, rounded up.
+5. Bound the insertion with a fixed-time window sized from that pulse count, `disable_command` it, and only then call `simulate mode until_settled` - see `simulate.html` for why a still-active insertion isn't safe to leave running into it.
+
+## Writing a periodic restart checkpoint, not just one at the end
+
+`RULES.md`'s "Simulation Output" section says to write intermediate restarts during long runs; this is the concrete mechanism.
+Use the `restart` command (`restart.html`), not another `write_restart` call: `restart N file1 file2` writes a checkpoint every N *timesteps* (compute N from the phase's own `write_output_timestep`/`simulation_timestep`) and alternates between the two filenames, so a crash mid-write can't corrupt both at once.
+Keep this separate from a final one-shot `write_restart` at a `simulate` block's natural end (e.g. `until_settled` converging) - that stays the real, fully-settled handoff; the periodic ones exist so a long run can be stopped early without losing everything, at the cost of a not-yet-converged handoff if used that way.
+If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 
 ## Ramp prescribed mesh motion from rest, don't start it at full speed
 
