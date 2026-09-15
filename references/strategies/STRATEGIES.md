@@ -16,7 +16,7 @@ If a case needs a smooth curved surface without shrinking every triangle to part
 
 A mesh (walls, moving geometry) imported into a case may need preprocessing before Aspherix will accept it or before it'll behave correctly — unit mismatches, topological defects caught at import, mesh-quality hard limits that only trigger on first real use, distinguishing intentional geometry from defects, and deriving/verifying regions from a mesh's actual enclosed interior.
 See `strategies/MESH_PREPROCESSING.md` for the full walkthrough.
-=======
+
 ## What a reduced-scale ("smoke") run establishes
 
 Running a script at a much lower particle count validates plumbing — it parses, meshes import, motion and measurement commands bind, output appears — but not physics or termination.
