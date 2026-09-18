@@ -2,6 +2,10 @@
 
 Short, self-contained problem-solving strategies for building and debugging Aspherix cases.
 
+## Verify a per-particle-state command actually worked
+
+`mark_particles`/`define_group`/`enable_heat_transfer`/... can run with no error while doing nothing -- verify the actual value. Use `define_group id check region <same-region>` for a live count, or the restart file for a property meant to persist through one.
+
 Each entry here should be a few sentences — just enough to state the strategy and when to reach for it.
 If a strategy needs its own examples, multi-step walkthrough, or supporting files, give it its own file in `references/strategies/<name>.md` and link it from here instead of growing this file.
 
@@ -84,3 +88,11 @@ See `mesh_module_motion.html`'s note on starting at full speed, and `variable.ht
 
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
 Enabling it adds its own coefficients — flag them for sign-off like any other material property (see `REPORTING.md`).
+
+## Tilt gravity to pack particles where you want them
+
+In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up -- settling does the work for free instead of a slow pusher mesh. Restore the real direction in the script that reads the restart.
+
+## `mesh_module servo`'s `kp` often needs to be much larger than its default
+
+`kp`'s default (1e-2) is often orders of magnitude too small -- verify actual displacement. `until_settled` won't detect servo progress (converges on kinetic energy) -- use `fixed_time` instead.

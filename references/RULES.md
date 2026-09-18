@@ -84,6 +84,8 @@ The two output intervals differ hugely in cost, so don't set them to the same ca
 `write_to_terminal_timestep` (see `commands/status.md`) writes a handful of scalars to the terminal/log/CSV, so it's cheap enough to sample much more often — and doing so is genuinely useful, since it's what makes a running simulation's log file and CSV time series usable for monitoring and runtime analysis.
 As a rule of thumb, set `write_to_terminal_timestep` to a smaller value than `write_output_timestep` rather than deriving one from the other or leaving both at the same cadence.
 
+Every event a script triggers (a mark, a final compress, any one-shot state change) must happen before the last dump that's meant to capture it. See `strategies/STRATEGIES.md`'s "Verify a per-particle-state command actually worked" entry.
+
 ## Timestep Criteria
 
 Large timesteps may cause numerical instability.
