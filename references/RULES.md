@@ -55,6 +55,10 @@ Several commands only work once others have already been declared, and the error
 - `simulation_timestep` must be declared before `insertion` and `check_timestep` - declare it right after mesh imports, not grouped with output-settings near the bottom of a script.
 - Any `simulate` call beyond `simulate time 0` needs a `particle_template` *and* a `particle_distribution` referencing it, even for a minimal mesh-import test with no real particles inserted - a template alone isn't enough.
 
+## Known Silent-Failure Traps
+
+Only declare a physics setting (e.g. heating) in the script phase that actually needs it, not earlier — a packing/prep phase split off via `write_restart`/`read_restart` can silently inherit one left over from an earlier script version.
+
 ## Default Values
 
 Always prefer to use default values for commands when they are available.
@@ -86,6 +90,10 @@ As a rule of thumb, set `write_to_terminal_timestep` to a smaller value than `wr
 
 Every one-shot event a script triggers (a mark, a final compress, any other state change meant to be captured) must run before the last `write_output_timestep` write it's meant to appear in.
 Verifying the event actually took effect (see `strategies/STRATEGIES.md`'s "Verify a per-particle-state command actually worked" entry) is a separate concern from this ordering — a verified change that ran after the last capturing write still won't show up in the output.
+
+### Output folders in a multi-phase case
+
+Give each named script (`init`/`main`/`fill`/...) its own `output_settings folder`, and clear it (not just the restart file) before rerunning outside a full clean — see `commands/output_settings.md`.
 
 ## Timestep Criteria
 

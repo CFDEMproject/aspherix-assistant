@@ -34,3 +34,7 @@ Restore the real direction in the script that reads the restart.
 Once a bed is placed, `mesh_module servo` can compact it further by driving a wall against the bed toward a target force or torque.
 `kp`'s default (1e-2) is often orders of magnitude too small to reach `maximum_velocity` in a reasonable time — verify actual displacement rather than trusting the default.
 `simulate mode until_settled` won't detect servo progress either, since it converges on kinetic energy, not on the servo's own target — use `fixed_time` instead (see the `until_filled`/`until_settled` entry above for the same convergence-check caveat in the insertion case).
+
+## `mesh_module servo`'s `center_of_mass` must track the pushed body, not the mesh's own STL position
+
+When reusing the same piston geometry across scripts/restarts, point `center_of_mass` at the pushed body's actual current position, not the mesh's imported STL coordinates, which don't update when an earlier phase moves the body.
