@@ -65,6 +65,11 @@ Keep this separate from a final one-shot `write_restart` at a `simulate` block's
 If a later phase's `read_restart` path should be swappable between the two, make it an `index`-style variable overridable via `-var` rather than a literal filename.
 This mechanism is for a standalone Aspherix run only - a CFD-coupled case (`enable_cfd_coupling`) syncs restarts from the CFD side, not through this `restart` mechanism, so don't assume it applies there too (see `commands/enable_cfd_coupling.md`).
 
+## Only regenerate a restart when the phase that produced it actually needs to change
+
+Before re-running an earlier phase's script over a later phase's parameter change, check whether the earlier phase's own physics actually depends on it.
+E.g. packing is independent of particle heat capacity, so `read_restart` can just pick up the new value instead of re-running the packing phase.
+
 ## Ramp prescribed mesh motion from rest, don't start it at full speed
 
 See `mesh_module_motion.html`'s note on starting at full speed, and `variable.html`'s note on building a temporal ramp for a `simulate`-based script (not the `ramp(x,y)` math function, which isn't a fit there) - apply that general pattern to the motion command's velocity/period/omega argument.
