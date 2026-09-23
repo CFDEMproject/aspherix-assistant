@@ -7,7 +7,8 @@ If a strategy needs its own examples, multi-step walkthrough, or supporting file
 
 ## Verify a per-particle-state command actually worked
 
-`mark_particles`/`define_group`/`enable_heat_transfer`/... can run with no error while doing nothing -- verify the actual value. Use `define_group id check region <same-region>` for a live count, or the restart file for a property meant to persist through one.
+`mark_particles`/`define_group`/`enable_heat_transfer`/... can run with no error while doing nothing — verify the actual value.
+Use `define_group id check region <same-region>` for a live count, or the restart file for a property meant to persist through one.
 
 ## Mesh element size vs. particle size
 
@@ -91,8 +92,10 @@ Enabling it adds its own coefficients — flag them for sign-off like any other 
 
 ## Tilt gravity to pack particles where you want them
 
-In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up -- settling does the work for free instead of a slow pusher mesh. Restore the real direction in the script that reads the restart.
+In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up — settling does the work for free instead of a slow pusher mesh.
+Restore the real direction in the script that reads the restart.
 
 ## `mesh_module servo`'s `kp` often needs to be much larger than its default
 
-`kp`'s default (1e-2) is often orders of magnitude too small -- verify actual displacement. `until_settled` won't detect servo progress (converges on kinetic energy) -- use `fixed_time` instead.
+`kp`'s default (1e-2) is often orders of magnitude too small — verify actual displacement.
+`until_settled` won't detect servo progress (converges on kinetic energy) — use `fixed_time` instead.

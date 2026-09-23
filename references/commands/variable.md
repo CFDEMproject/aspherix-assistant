@@ -120,7 +120,8 @@ status v_s    # right: re-evaluates s's formula at every trigger point
 
 ### Referencing a variable from inside another variable's formula: always `v_name`
 
-Nesting `${name}` inside an `equal`, `atom`, or `boolean` formula's quoted string errors at evaluation time -- use `v_name` instead. This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine.
+Nesting `${name}` inside an `equal`, `atom`, or `boolean` formula's quoted string errors at evaluation time — use `v_name` instead.
+This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine.
 
 ```
 variable x equal 0.003
