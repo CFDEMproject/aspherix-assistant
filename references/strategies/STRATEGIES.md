@@ -54,7 +54,7 @@ Prefer rolling friction by default: it approximates bulk flow behavior (angle of
 
 ## Insertion
 
-Picking the right `simulate` mode for how particles were inserted, verifying a `pack` insertion actually hit its target, and reaching a high cumulative target without retrying `pack`.
+Picking the right `simulate` mode for how particles were inserted, verifying a `pack` insertion actually hit its target, reaching a high cumulative target without retrying `pack`, and packing particles into position by tilting gravity instead.
 See `strategies/INSERTION.md` for the full set of strategies.
 
 ## Writing a periodic restart checkpoint, not just one at the end
@@ -73,11 +73,6 @@ See `mesh_module_motion.html`'s note on starting at full speed, and `variable.ht
 
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
 Enabling it adds its own coefficients — flag them for sign-off like any other material property (see `REPORTING.md`).
-
-## Tilt gravity to pack particles where you want them
-
-In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up — settling does the work for free instead of a slow pusher mesh.
-Restore the real direction in the script that reads the restart.
 
 ## `mesh_module servo`'s `kp` often needs to be much larger than its default
 

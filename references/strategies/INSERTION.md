@@ -1,6 +1,6 @@
 # Insertion
 
-Strategies for getting particles into a case reliably — picking the right `simulate` mode for how they were inserted, confirming a `pack` actually hit its target, and reaching a high cumulative target without retrying `pack`.
+Strategies for getting particles into a case reliably — picking the right `simulate` mode for how they were inserted, confirming a `pack` actually hit its target, reaching a high cumulative target without retrying `pack`, and packing particles into position by tilting gravity instead of inserting them there directly.
 
 ## `simulate mode until_filled`/`until_settled` - pick the mode that matches the insertion style
 
@@ -23,3 +23,8 @@ Use `mode rate_in_region` with `insert_every_time` instead (self-limits correctl
 3. Pulse rate sized to request the full remaining target each pulse.
 4. Number of pulses = target volume fraction / that per-pulse ceiling, with a safety margin, rounded up.
 5. Bound the insertion with a fixed-time window sized from that pulse count, `disable_command` it, and only then call `simulate mode until_settled` - see `simulate.html` for why a still-active insertion isn't safe to leave running into it.
+
+## Tilt gravity to pack particles where you want them
+
+In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up — settling does the work for free instead of a slow pusher mesh.
+Restore the real direction in the script that reads the restart.
