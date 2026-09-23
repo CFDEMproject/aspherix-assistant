@@ -32,6 +32,7 @@ See `references/RULES.md`
 - `output_settings` command usage: `references/commands/output_settings.md`
 - `check_timestep` command usage: `references/commands/check_timestep.md`
 - `enable_cfd_coupling` command usage: `references/commands/enable_cfd_coupling.md`
+- `primitive_wall` command usage: `references/commands/primitive_wall.md`
 
 ## Strategies
 
