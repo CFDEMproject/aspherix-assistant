@@ -2,12 +2,12 @@
 
 Short, self-contained problem-solving strategies for building and debugging Aspherix cases.
 
+Each entry here should be a few sentences — just enough to state the strategy and when to reach for it.
+If a strategy needs its own examples, multi-step walkthrough, or supporting files, give it its own file in `references/strategies/<name>.md` and link it from here instead of growing this file.
+
 ## Verify a per-particle-state command actually worked
 
 `mark_particles`/`define_group`/`enable_heat_transfer`/... can run with no error while doing nothing -- verify the actual value. Use `define_group id check region <same-region>` for a live count, or the restart file for a property meant to persist through one.
-
-Each entry here should be a few sentences — just enough to state the strategy and when to reach for it.
-If a strategy needs its own examples, multi-step walkthrough, or supporting files, give it its own file in `references/strategies/<name>.md` and link it from here instead of growing this file.
 
 ## Mesh element size vs. particle size
 
