@@ -55,10 +55,6 @@ Several commands only work once others have already been declared, and the error
 - `simulation_timestep` must be declared before `insertion` and `check_timestep` - declare it right after mesh imports, not grouped with output-settings near the bottom of a script.
 - Any `simulate` call beyond `simulate time 0` needs a `particle_template` *and* a `particle_distribution` referencing it, even for a minimal mesh-import test with no real particles inserted - a template alone isn't enough.
 
-## Known Silent-Failure Traps
-
-Only declare a physics setting (e.g. heating) in the script phase that actually needs it, not earlier — a packing/prep phase split off via `write_restart`/`read_restart` can silently inherit one left over from an earlier script version.
-
 ## Default Values
 
 Always prefer to use default values for commands when they are available.
@@ -104,7 +100,7 @@ Refer to the `check_timestep` command.
 
 Shared parameters (e.g. `simulation_timestep`) across split scripts (`init.asx`, `main.asx`, ...) aren't enforced automatically — confirm they still match before running.
 
-This includes a stop condition expressed as "N% of an earlier state" (e.g. a settled particle/mass count from a prior `fill`-style script) — Aspherix's variable system cannot snapshot a value from earlier in the *same* script for later comparison either, let alone across scripts (referencing one variable from inside another's formula either crashes at evaluation via `${name}`, or silently re-evaluates live every time via `v_name` — neither freezes a value; see `commands/variable.md`).
+This includes a stop condition expressed as "N% of an earlier state" (e.g. a settled particle/mass count from a prior `fill`-style script) — Aspherix's variable system cannot snapshot a value from earlier in the *same* script for later comparison either, let alone across scripts (referencing one variable from inside another's *quoted* formula fails at evaluation via `${name}`, and `v_name` re-evaluates live every time — neither freezes a value; see `commands/variable.md`).
 This kind of threshold has to be computed externally, from the prior script's *actual* achieved output, and hardcoded - never derived from the originally intended target.
 Confirmed directly: a threshold sized for an intended count that insertion didn't fully reach (see `strategies/STRATEGIES.md`'s packing-generator entry) made `simulate mode until_condition_reached` satisfy on its very first check - no error, just a silent early exit that looks like the run did nothing.
 
@@ -112,3 +108,4 @@ A threshold on an *extensive* quantity — total `ke(...)`, total mass, a partic
 Derive it as `<per-particle value> * <this script's actual count>`, or avoid the problem with an intensive criterion — `simulate mode until_settled` breaks on a velocity threshold, which holds at any scale.
 
 State handed between scripts needs the same care: `read_restart` reads whatever file is at the path, with no record of what wrote it (`read_restart.html`), so record provenance beside it — script, achieved count, timestamp — and check that before the phase that consumes it.
+This includes physics settings, not just data: only declare one (e.g. heating) in the script phase that actually needs it, not earlier — a packing/prep phase split off via `write_restart`/`read_restart` can silently inherit one left over from an earlier script version.
