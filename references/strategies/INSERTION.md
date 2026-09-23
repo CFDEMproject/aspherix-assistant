@@ -1,6 +1,6 @@
 # Insertion
 
-Strategies for getting particles into a case reliably — picking the right `simulate` mode for how they were inserted, confirming a `pack` actually hit its target, reaching a high cumulative target without retrying `pack`, and packing particles into position by tilting gravity instead of inserting them there directly.
+Strategies for getting particles into a case reliably — picking the right `simulate` mode for how they were inserted, confirming a `pack` actually hit its target, reaching a high cumulative target without retrying `pack`, packing particles into position by tilting gravity instead of inserting them there directly, and compacting an already-placed bed with `mesh_module servo`.
 
 ## `simulate mode until_filled`/`until_settled` - pick the mode that matches the insertion style
 
@@ -28,3 +28,9 @@ Use `mode rate_in_region` with `insert_every_time` instead (self-limits correctl
 
 In a non-physical prep phase (checkpointed via `write_restart`), point `enable_gravity`'s `direction` toward wherever the bed should end up — settling does the work for free instead of a slow pusher mesh.
 Restore the real direction in the script that reads the restart.
+
+## `mesh_module servo`'s `kp` often needs to be much larger than its default
+
+Once a bed is placed, `mesh_module servo` can compact it further by driving a wall against the bed toward a target force or torque.
+`kp`'s default (1e-2) is often orders of magnitude too small to reach `maximum_velocity` in a reasonable time — verify actual displacement rather than trusting the default.
+`simulate mode until_settled` won't detect servo progress either, since it converges on kinetic energy, not on the servo's own target — use `fixed_time` instead (see the `until_filled`/`until_settled` entry above for the same convergence-check caveat in the insertion case).
