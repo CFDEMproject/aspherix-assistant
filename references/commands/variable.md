@@ -118,13 +118,26 @@ status v_s    # right: re-evaluates s's formula at every trigger point
 
 `${name}` substitutes silently either way (no parse error), so picking the wrong one doesn't fail loudly — the case just runs with a stale, frozen number. Check for this specifically when reviewing a case.
 
-### Referencing a variable from inside another variable's formula: always `v_name`
+### Referencing a variable from inside another variable's *quoted* formula: always `v_name`
 
-Nesting `${name}` inside an `equal`, `atom`, or `boolean` formula's quoted string errors at evaluation time — use `v_name` instead.
-This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine.
+This is a known bug in Aspherix itself, not a syntax rule to work around otherwise.
+It hinges on quoting, not on which style (`equal`/`atom`/`boolean`) the enclosing variable is: `${name}` substitutes fine when it's unquoted, but the same substitution inside a quoted formula string errors at evaluation time.
+`v_name` works either way, quoted or not — the only cost is the usual `${name}`-vs-`v_name` tradeoff from the decision rule above (unquoted `${name}` freezes the referenced variable's value at parse time; `v_name` re-evaluates it).
 
 ```
 variable x equal 0.003
-variable y equal "5-v_x"    # right
-variable y equal "5-${x}"   # wrong: errors at evaluation
+variable y equal 1-${x}      # right: unquoted, substitutes x's current value immediately
+variable y equal "1-${x}"    # wrong: quoted, errors at evaluation
+variable y equal 1-v_x       # right: unquoted, re-evaluates x's formula every time y is evaluated
+variable y equal "1-v_x"     # right: quoted, same dynamic behavior
 ```
+
+`boolean` formulas are always written as quoted strings (they need the full comparison expression), so this shows up there whenever `${name}` is used in place of `v_name`:
+
+```
+variable threshold equal 0.001
+variable settled boolean "ke(all,insertion_region) <= v_threshold"    # right
+variable settled boolean "ke(all,insertion_region) <= ${threshold}"   # wrong: quoted, errors at evaluation
+```
+
+This is distinct from referencing a variable from a non-`variable` command (e.g. `if "${settled}" then "quit"`), which is fine.
