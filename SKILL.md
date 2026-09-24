@@ -59,6 +59,11 @@ See `references/EXAMPLE_CASES.md`
 
 See `references/RUNNING.md`
 
+## Calibration
+
+Aspherix Calibration (`aspherix-calibration`, licensed separately) finds DEM material parameters that reproduce lab tests of a bulk material; for calibration work, use the sibling skill [Aspherix Calibration Assistant](https://github.com/CFDEMproject/aspherix-calibration-assistant).
+Example material models for several material classes, usable as starting points before a calibration, are collected in the DCS knowledge base (`https://support.aspherix.org/support/solutions/articles/201000124214`); they are example values, not tailored to a specific real material.
+
 ## Post Processing
 
 See `references/POST_PROCESSING.md`
