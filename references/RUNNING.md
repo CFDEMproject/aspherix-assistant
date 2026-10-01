@@ -49,6 +49,8 @@ Reading the whole thing into context will pollute it.
 Parallelism is a launcher, not a solver flag: `mpirun -np N aspherix -in input.asx`.
 Skip the wrapper at N=1 rather than `mpirun -np 1`.
 
+Count physical cores, not logical ones: with hyperthreading, `nproc` reports twice the physical cores (`lscpu`: `Thread(s) per core` 2), and ranks beyond the physical cores bring no speed-up.
+
 Check the load balance rather than assuming every rank is busy: each `simulate` block's summary reports `Nlocal: ave <a> max <b> min <c>`, and a `min` of 0 means a rank holds no particles at all.
 Expect this wherever `simulation_domain` is much larger than the region the particles actually occupy, which it must be whenever geometry extends beyond them.
 See `balance` (one-off) and `fix balance` (continuous).

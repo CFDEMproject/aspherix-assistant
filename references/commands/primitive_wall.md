@@ -39,8 +39,3 @@ primitive_wall id floor material steel type plane normal_axis z offset 0.01 shea
 # a rotating drum: cylinder parallel to x, shear velocity (0,1,0) makes the surface appear to rotate
 primitive_wall id drum_wall material steel type cylinder axis x center (0.,0.,0.) radius 1. shear (0,1,0)
 ```
-
-## Restrictions
-
-The docs' own Restrictions section says "none" — contact history is checkpointed to binary restart files like a mesh wall's, and none of `modify_command`'s options apply to it.
-VTK/VTM output for a `primitive_wall` hasn't been confirmed against the docs; verify against actual output before relying on it being written out the same way a `mesh` wall's is.

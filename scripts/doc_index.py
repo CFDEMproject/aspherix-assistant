@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Fetch and decompress the Aspherix Solver docs' Sphinx object inventory.
+"""Fetch and decompress an Aspherix docs section's Sphinx object inventory.
 
 Usage:
-    scripts/doc_index.py [filter]
+    scripts/doc_index.py [--product solver|calibration] [filter]
 
-With no argument, prints the full inventory (name domain:role priority uri displayname).
-With an argument, prints only lines whose name or displayname contains it (case-insensitive).
+With no filter, prints the full inventory (name domain:role priority uri displayname).
+With a filter, prints only lines whose name or displayname contains it (case-insensitive).
+--product selects the docs section (default: solver).
 """
 import sys
 import urllib.request
 import zlib
 
-URL = "https://doc.aspherix-dem.com/solver/objects.inv"
+URL = "https://doc.aspherix-dem.com/{product}/objects.inv"
 
 
 def fetch_inventory(url):
@@ -23,8 +24,14 @@ def fetch_inventory(url):
 
 
 def main():
-    keyword = sys.argv[1].lower() if len(sys.argv) > 1 else None
-    text = fetch_inventory(URL)
+    args = sys.argv[1:]
+    product = "solver"
+    if args[:1] == ["--product"]:
+        if len(args) < 2:
+            sys.exit("usage: doc_index.py [--product solver|calibration] [filter]")
+        product, args = args[1], args[2:]
+    keyword = args[0].lower() if args else None
+    text = fetch_inventory(URL.format(product=product))
     for line in text.splitlines():
         if keyword is None or keyword in line.lower():
             print(line)
