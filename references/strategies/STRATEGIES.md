@@ -79,3 +79,6 @@ See `mesh_module_motion.html`'s note on starting at full speed, and `variable.ht
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
 Enabling it adds its own coefficients — flag them for sign-off like any other material property (see `REPORTING.md`).
 
+## Make the effect of a parameter observable in the status output
+
+Add a `status_style` column (`commands/status.md`) for each quantity that a parameter is supposed to change (e.g. a power, a temperature or a flow rate), so a wrong effect shows up early.
