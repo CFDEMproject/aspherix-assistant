@@ -33,3 +33,4 @@ Cannot be combined with `enable_buoyancy`.
 
 `../strategies/STRATEGIES.md`'s "Writing a periodic restart checkpoint" entry (the `restart`/`write_restart` commands) applies to a standalone Aspherix run, not a coupled one.
 In a coupled case, restart synchronization between the DEM and CFD sides is driven from the CFD side, not by any `enable_cfd_coupling` keyword or by Aspherix's own `restart` command - don't assume `restart N file1 file2` alone produces a restart point the coupled CFD run can resume from in sync.
+How to continue a stopped coupled run is described in the restart entry of the CFDEMcoupling how-to (`https://doc.aspherix-dem.com/coupling/Section_how_to.html`); follow it instead of improvising.
