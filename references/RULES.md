@@ -18,6 +18,10 @@ Prefer to use Aspherix's native declarative commands instead.
 Examples:
 - `fix <id> <group> move/mesh ...` -> `mesh_module motion ...`
 
+Exception: a few legacy fixes have no native declarative replacement at all and must still be used as literal `fix` commands when that specific functionality is genuinely needed.
+`fix property/set` is one of these - confirmed directly: unlike `set` (`set.html`, one-shot, applies only at the point it's called), `fix property/set value <v>` re-applies every timestep.
+But it only targets a custom property previously registered via `fix property/atom`, not a built-in per-atom attribute like `charge`/`q` (from `particle_shape ... charged yes`) - so it does not solve "continuously reset a built-in property for particles in a region" despite looking like the obvious candidate; see `strategies/STRATEGIES.md`'s entry of that name for the actual working pattern.
+
 ### No `compute` commands, prefer `calculate` commands
 
 Legacy LIGGGHTS-style `compute <id> <group-id> <style> ...` commands should be avoided.

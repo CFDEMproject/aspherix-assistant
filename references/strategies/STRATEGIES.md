@@ -79,3 +79,16 @@ See `mesh_module_motion.html`'s note on starting at full speed, and `variable.ht
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
 Enabling it adds its own coefficients — flag them for sign-off like any other material property (see `REPORTING.md`).
 
+## Coarsegraining scales up the simulated particle size, not just bookkeeping
+
+`particle_template`'s `coarsegraining` keyword (and the standalone `coarsegraining` command) means the actually-simulated ("parcel") size is `base_size * cg_factor` for sphere templates (`radius -> cg_factor*radius`, per `coarsegraining.html`'s model-overview table) — the `radius` written in the template is the real/base physical size, not what collides in the simulation.
+This matters whenever another command's geometry needs to be sized relative to "particle size" — e.g. a region meant to be about one particle diameter thick, or the mesh-vs-particle sizing in "Mesh element size vs. particle size" above.
+Compute `radius * coarsegraining` per template and compare those products — don't rank templates by their written `radius` alone, since a small base radius with a large coarsegraining factor can end up close to, or even past, a bigger base radius with a smaller factor.
+
+## Continuously resetting a built-in per-particle property for particles in a region
+
+There is no native command that continuously (every timestep) resets a built-in per-atom attribute like `charge`/`q` for particles inside a region.
+`set group|region <id> <property> <value>` (`set.html`) only applies once, at the point it's called; `fix property/set` reapplies every timestep but only works on custom properties registered via `fix property/atom`, not built-in ones (see `RULES.md`'s "No fix commands" exception).
+The working pattern: `define_group id <name> region <region-id> update_every_time <interval>`, optionally `intersect`ed with a materials/condition group to restrict further (e.g. to one material), then a `while "<elapsed> < <total>" do ... done` loop (see `commands/while_do.md`) that advances `simulate time <interval>` and calls `set group <group> <property> <value>` once per iteration — keep the loop's chunk size equal to the group's `update_every_time` so group membership is current when `set` fires.
+Pick `<interval>` no larger than the time a target particle could take to cross the region at its expected speed, or crossings will be missed between resets; a CFD-coupled case's own coupling interval (`enable_cfd_coupling`) is a reasonable default when one exists, since the case's physics is already evaluated at that cadence.
+
