@@ -42,14 +42,11 @@ See `references/strategies/STRATEGIES.md`
 
 See `references/PYTHON.md`
 
-## Public Documentation
+## Documentation
 
-The Aspherix documentation root ([website](https://doc.aspherix-dem.com/)) covers several products (Solver, GUI, Calibration, CFDEMcoupling); this skill only works with the **Aspherix Solver** section, since that's what its `.asx` input scripts target.
+This skill only works with the **Aspherix Solver** documentation, since that's what its `.asx` input scripts target (the Aspherix docs also cover GUI, Calibration and CFDEMcoupling).
 
-0. [Solver docs](https://doc.aspherix-dem.com/solver/)
-1. [Solver index](https://doc.aspherix-dem.com/solver/genindex.html)
-
-See `references/DOC_SEARCH.md` for how to find and fetch the right page instead of searching or pulling whole pages into a scratch file — including the 3-strategy escalation for fetching a page section (fetch-tool prompt → subagent-run `scripts/fetch_section.py` → running that script yourself) when a fetch tool's own summarization drops or paraphrases dense reference content.
+Read the documentation of the installed Aspherix (the scripts find it via the `aspherix` binary); if it can't be found, ask the user whether to use the online docs or a local path. `references/DOC_SEARCH.md` has the details and says how to find and fetch the right page.
 
 ## Example Cases
 
