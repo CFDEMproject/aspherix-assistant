@@ -1,6 +1,6 @@
 ---
 name: aspherix-assistant
-description: "Aspherix Assistant"
+description: "Helps set up, debug, or extend Aspherix(R) DEM (Discrete Element Method) simulations -- the .asx/LIGGGHTS-style input script. Trigger when: the user is writing or editing a run.asx (or similarly named) Aspherix input script; mentions Aspherix, LIGGGHTS, DEM, particle_template, insertion, mesh_module, material_properties, or coarsegraining; or is working in a DEM/ folder of a case, standalone or as the DEM side of a coupled CFDEM case (see cfdem-assistant for the CFD/coupling side)."
 ---
 
 # Context
