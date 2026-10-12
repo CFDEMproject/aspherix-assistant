@@ -53,12 +53,15 @@ Count physical cores, not logical ones: with hyperthreading, `nproc` reports twi
 
 Check the load balance rather than assuming every rank is busy: each `simulate` block's summary reports `Nlocal: ave <a> max <b> min <c>`, and a `min` of 0 means a rank holds no particles at all.
 Expect this wherever `simulation_domain` is much larger than the region the particles actually occupy, which it must be whenever geometry extends beyond them.
-See `balance` (one-off) and `fix balance` (continuous).
+Prefer enabling load balancing (`enable_loadbalancing`) for parallel runs, especially when runtime matters.
+It is complex: if errors appear after adding it, suspect it and test without.
+See also `balance` (one-off) and `fix balance` (continuous).
 
 ## Estimating how long a run will take
 
 Use the built-in `cu` status column (Cundall number) rather than extrapolating a wall-clock rate by hand — `status_style.html` gives its definition and the wall-time formula.
-It is in the default column set (`commands/status.md`), and predicted total wall time to within ~15% when checked against a completed run.
+Read that definition closely before comparing runs.
+It is in the default column set (`commands/status.md`).
 
 ## Concurrent runs
 
@@ -78,6 +81,8 @@ To visualize the results a working version of ParaView is required, and the Asph
 ```
 paraview --data=path/to/results.pvd
 ```
+
+When scripting renders, check that the rendered particle count matches the log.
 
 Launching the macro automatically via a `--script` flag is currently unreliable — don't pass `--script`.
 Instead, launch ParaView with `--data` as above, then tell the user to run the Aspherix macro themselves from the Macros menu once ParaView is open.

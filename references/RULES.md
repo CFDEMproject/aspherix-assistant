@@ -94,7 +94,7 @@ Give each named script (`init`/`main`/`fill`/...) its own `output_settings folde
 ## Timestep Criteria
 
 Large timesteps may cause numerical instability.
-Refer to the `check_timestep` command.
+Use the `check_timestep` command in every case (see `commands/check_timestep.md`) unless the user opts out, and read its warnings again after every physics change.
 
 ## Cross-script Parameter Consistency
 
