@@ -1,6 +1,6 @@
 ---
 name: aspherix-assistant
-description: "Aspherix Assistant"
+description: "Helps set up, debug, or extend Aspherix(R) DEM (Discrete Element Method) simulations: the .asx input script. Trigger when: the user is writing or editing an Aspherix input script (.asx, e.g. run.asx); mentions Aspherix, particle_template, mesh_module, material_properties or coarsegraining; is porting a LIGGGHTS input script to Aspherix syntax; or works in the DEM/ folder of a case, standalone or as the DEM side of a coupled CFDEM case (also load cfdem-assistant for the CFD/coupling side). For calibrating material parameters use aspherix-calibration-assistant."
 ---
 
 # Context
