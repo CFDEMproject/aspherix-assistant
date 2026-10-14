@@ -79,3 +79,8 @@ See `mesh_module_motion.html`'s note on starting at full speed, and `variable.ht
 Cohesion (inter-particle/particle-wall stickiness) is a separate property from friction, defaults off, and should stay off unless the material is actually known or expected to be cohesive (fine powders, moisture, etc.).
 Enabling it adds its own coefficients — flag them for sign-off like any other material property (see `REPORTING.md`).
 
+## Resetting a per-particle property in a region
+
+A built-in property such as `charge` is not reset every timestep by a native command; `set` acts once when called.
+Alternate `simulate` and `set region <region-id> ...` in a `while` loop; see `strategies/RESET_PROPERTY_IN_REGION.md`.
+

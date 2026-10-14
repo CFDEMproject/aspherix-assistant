@@ -22,6 +22,8 @@ Prefer to use Aspherix's native declarative commands instead.
 Examples:
 - `fix <id> <group> move/mesh ...` -> `mesh_module motion ...`
 
+Exception: `fix` is allowed only if no native declarative replacement exists, e.g. `fix property/set` (custom `fix property/atom` properties only, see `fix_property_set.html`).
+
 ### No `compute` commands, prefer `calculate` commands
 
 Legacy LIGGGHTS-style `compute <id> <group-id> <style> ...` commands should be avoided.
