@@ -5,11 +5,12 @@ How to invoke the `aspherix` CLI binary itself, as opposed to writing `.asx` inp
 ## Environment
 
 Running the executable depends on having the Aspherix environment correctly set up.
-The `aspherix` executable MUST be available in your PATH.
+The `aspherix` executable MUST be available in your PATH, and it must be the installation you intend to use (an installed package, the expected version).
 
-You can check if it is available with the following shell command:
+You can check this with the following shell commands:
 ```
 which aspherix
+aspherix -version
 ```
 
 > NOTE: It is recommended that the Aspherix environment already be preloaded — and NOT (re-)loaded each time a simulation is run.
