@@ -82,5 +82,5 @@ Enabling it adds its own coefficients — flag them for sign-off like any other 
 ## Resetting a per-particle property in a region
 
 A built-in property such as `charge` is not reset every timestep by a native command; `set` acts once when called.
-Alternate `simulate` and `set` in a `while` loop over a `define_group` with `update_every_time`; see `strategies/RESET_PROPERTY_IN_REGION.md`.
+Alternate `simulate` and `set region <region-id> ...` in a `while` loop; see `strategies/RESET_PROPERTY_IN_REGION.md`.
 
