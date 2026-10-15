@@ -84,3 +84,6 @@ Enabling it adds its own coefficients — flag them for sign-off like any other 
 A built-in property such as `charge` is not reset every timestep by a native command; `set` acts once when called.
 Alternate `simulate` and `set region <region-id> ...` in a `while` loop; see `strategies/RESET_PROPERTY_IN_REGION.md`.
 
+## Make the effect of a parameter observable in the status output
+
+Add a `status_style` column (`commands/status.md`) for each quantity that a parameter is supposed to change (e.g. a power, a temperature or a flow rate), so a wrong effect shows up early.
