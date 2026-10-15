@@ -45,18 +45,6 @@ Reading the whole thing into context will pollute it.
 - When checking output, prefer `tail`, `grep`, or piping through a filter over reading the whole log file — e.g. check the last N lines for the final status, or grep for `ERROR`/`WARN`.
 - Set `-log filename` (rather than leaving it on screen/stdout) so the log can be searched/filtered on disk instead of scrolling through captured terminal output.
 
-## When a command fails
-
-Before rerunning a script that failed, find the cause in the documentation:
-
-1. The command's file under `references/commands/`, if it has one (listed in `SKILL.md`).
-2. The command's docs page, sections `Description` and `Restrictions`, via `scripts/fetch_section.py` (`DOC_SEARCH.md`).
-3. `RULES.md`, "Command Ordering and Cross-Command Dependencies".
-
-Then fix the script from what the documentation says.
-If it doesn't explain the failure, tell the user instead of trying variants in the case.
-A short trial is fine only in a throwaway script that runs in seconds, to confirm what the documentation says.
-
 ## Parallel execution
 
 Parallelism is a launcher, not a solver flag: `mpirun -np N aspherix -in input.asx`.
