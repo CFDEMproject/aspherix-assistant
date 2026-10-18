@@ -5,6 +5,13 @@ Short, self-contained problem-solving strategies for building and debugging Asph
 Each entry here should be a few sentences — just enough to state the strategy and when to reach for it.
 If a strategy needs its own examples, multi-step walkthrough, or supporting files, give it its own file in `references/strategies/<name>.md` and link it from here instead of growing this file.
 
+## A failed command: read its documentation before rerunning
+
+Find the cause in the command's file under `references/commands/`, then the `Description` and `Restrictions` sections of its docs page (`scripts/fetch_section.py`, see `DOC_SEARCH.md`), then `RULES.md`, "Command Ordering and Cross-Command Dependencies".
+Then fix the script from what they say.
+If they don't explain the failure, tell the user instead of trying variants in the case.
+A short trial is fine only in a throwaway script that runs in seconds, to confirm what the documentation says.
+
 ## Verify a per-particle-state command actually worked
 
 `mark_particles`/`define_group`/`enable_heat_transfer`/... can run with no error while doing nothing — verify the actual value.

@@ -49,7 +49,7 @@ Prefer to use the Aspherix's native `output_settings` command for generating out
 
 ## Command Ordering and Cross-Command Dependencies
 
-Several commands only work once others have already been declared, and the error you get often doesn't name the missing command directly - confirmed repeatedly by hitting the actual error rather than reading ahead:
+Several commands only work once others have already been declared, and the error you get often doesn't name the missing command directly - confirmed by the actual error:
 
 - `particle_shape` must be declared before `simulation_domain` (and before any other command that creates the simulation box).
 - `material_interaction_properties` must be declared before `particle_contact_model`/`wall_contact_model` reference the materials involved.
