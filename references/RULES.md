@@ -47,6 +47,13 @@ Always use the Aspherix's native `simulate` command.
 Legacy LIGGGHTS-style `dump` commands shoud be avoided.
 Prefer to use the Aspherix's native `output_settings` command for generating output.
 
+## Verify Syntax Against the Documentation
+
+Check the documentation (see `DOC_SEARCH.md`) before writing any command, keyword, style name or quantity name you haven't already seen work in the case you are editing.
+Comments in input scripts are not a source: they may be from memory, outdated, or wrong (e.g. a `# [spheres, bonded, ...]` comment next to `particle_shape` suggested `spheres`; the documented style is `sphere`).
+The same applies to names you infer from another tool's output (e.g. CFDEM's `convectiveHeatFlux`/`heatTransCoeff` are not valid `calculate quantity` names; per-particle physics outputs are referenced as `id_Temp`, `id_heatFlux` — see `commands/variable.md`).
+A failed run costs far more than the documentation lookup.
+
 ## Command Ordering and Cross-Command Dependencies
 
 Several commands only work once others have already been declared, and the error you get often doesn't name the missing command directly - confirmed by the actual error:
